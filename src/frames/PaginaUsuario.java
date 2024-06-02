@@ -1,0 +1,1694 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package frames;
+
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dao.BancoDeDados;
+import entities.Carteira;
+import entities.Usuario;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+
+/**
+ *
+ * @author win
+ */
+
+public class PaginaUsuario extends javax.swing.JFrame {
+
+    BancoDeDados bd;
+    String nome, email;
+    float saldo;
+    String nivelInvestimento = "Baixo";
+    ResultSet rs;
+    Carteira carteira;
+
+    /**
+     * Creates new form PaginaUsuario
+     */
+    public PaginaUsuario() {
+        initComponents();
+        componentesAlterados();
+    }
+
+    public PaginaUsuario(Usuario usuario) {
+        try {
+            bd = new BancoDeDados();
+            initComponents();
+
+            rs = bd.ler(usuario);
+            if (rs.next()) {
+                nome = rs.getString("nome");
+                nivelInvestimento = rs.getString("nivel_investimento");
+                email = rs.getString("email");
+            }
+
+            rs = bd.pegarSaldo(email);
+            if (rs.next()) {
+                saldo = rs.getFloat("saldo");
+                carteira = new Carteira(email, saldo);
+            }
+            componentesAlterados();
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO : " + ex.getMessage());
+        }
+    }
+
+    public void componentesAlterados() {
+        scrollPanelPerfil.setVisible(false);
+        lblNomeUsuario.setText(nome);
+        lblEmailPerfilUsuario.setText(email);
+        lblNivelInvestimentoPerfilUsuario.setText(nivelInvestimento);
+        lblSaldo.setText(String.format("%.2f", saldo));
+        retirarPaineis();
+        selecionarPaineisDeEstudos();
+        panelResultadoSimulacao.setVisible(false);
+        lblValorInsuficiente.setVisible(false);
+        lblAlterarNome.setText("<html><u>Alterar nome</u></html>");
+         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/iconImage.png")));
+
+    }
+
+    public void retirarPaineis() {
+        panelEstudosAlto.setVisible(false);
+        panelEstudosBaixo.setVisible(false);
+        panelEstudosMedio.setVisible(false);
+        panelCarteira.setVisible(false);
+        panelInvestimento.setVisible(false);
+    }
+
+    public void selecionarPaineisDeEstudos() {
+        if (nivelInvestimento.equals("Baixo")) {
+            panelEstudosBaixo.setVisible(true);
+        } else if (nivelInvestimento.equals("Medio")) {
+            panelEstudosMedio.setVisible(true);
+        } else if (nivelInvestimento.equals("Alto")) {
+            panelEstudosAlto.setVisible(true);
+        }
+    }
+
+    public double calcularValorResultado(double valorAplicacao, double investimentoMensal, int prazo, String tipoDePrazo, double taxa) {
+        double taxaJurosMensal = (taxa / 100) / 12;
+        int prazoMensal;
+        if (tipoDePrazo.equals("Anos")) {
+            prazoMensal = prazo * 12;
+        } else {
+            prazoMensal = prazo;
+        }
+
+        double montante = valorAplicacao * (1 + taxaJurosMensal);
+
+        for (int i = 0; i < prazoMensal; i++) {
+            montante += investimentoMensal * Math.pow((1 + taxaJurosMensal), i);
+        }
+
+        return montante;
+    }
+
+    public void adicionarEstiloBordaErro(JPanel panel) {
+        LineBorder border = new LineBorder(Color.red, 1);
+        panel.setBorder(border);
+    }
+
+    public void removerEstiloBordaErro(JPanel panel) {
+        LineBorder border = new LineBorder(Color.black, 1);
+        panel.setBorder(border);
+    }
+
+    public boolean entradasSimulacaoEstaoVazias() {
+        boolean result = false;
+        if (txtValorDaApilcacao.getText().equals("")) {
+            adicionarEstiloBordaErro(panelValorAplicacao);
+            result = true;
+        }
+        if (txtInvestimentoMensal.getText().equals("")) {
+            adicionarEstiloBordaErro(panelInvestimentoMensal);
+            result = true;
+        }
+        if (txtPrazo.getText().equals("")) {
+            adicionarEstiloBordaErro(panelPrazo);
+            result = true;
+        }
+
+        return result;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        panelFundo = new javax.swing.JPanel();
+        panelCabecalho = new javax.swing.JPanel();
+        lblNomeUsuario = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        scrollPanelPerfil = new javax.swing.JScrollPane();
+        panelScrollPanel = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblEmailPerfilUsuario = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblNivelInvestimentoPerfilUsuario = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lblAlterarNome = new javax.swing.JLabel();
+        panelUsuarios = new javax.swing.JPanel();
+        panelSelecaoDeFuncoes = new javax.swing.JPanel();
+        lblInvestimentos = new javax.swing.JLabel();
+        lblEstudos = new javax.swing.JLabel();
+        lblCarteira = new javax.swing.JLabel();
+        lblSair = new javax.swing.JLabel();
+        panelCarteira = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblSaldo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtValor = new javax.swing.JTextField();
+        btnRetirar = new javax.swing.JButton();
+        btnDepositar = new javax.swing.JButton();
+        jLabel66 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        btnVerSaldo = new javax.swing.JToggleButton();
+        panelInvestimento = new javax.swing.JPanel();
+        cmbTipoDePrazo = new javax.swing.JComboBox<>();
+        sliderTaxa = new javax.swing.JSlider();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        lblPorcentagem = new javax.swing.JLabel();
+        panelPrazo = new javax.swing.JPanel();
+        txtPrazo = new javax.swing.JTextField();
+        panelInvestimentoMensal = new javax.swing.JPanel();
+        txtInvestimentoMensal = new javax.swing.JTextField();
+        panelValorAplicacao = new javax.swing.JPanel();
+        txtValorDaApilcacao = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        panelSimulacao = new javax.swing.JPanel();
+        panelResultadoSimulacao = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        lblQuantidadeDeTempo = new javax.swing.JLabel();
+        lblTipoDePrazo = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        lblValorResultado = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        lblRendimentoBruto = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        lblTotalInvestido = new javax.swing.JLabel();
+        panelSemResultado = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        lblSimular = new javax.swing.JLabel();
+        lblValorInsuficiente = new javax.swing.JLabel();
+        panelEstudosMedio = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        panelEstudosAlto = new javax.swing.JPanel();
+        jLabel50 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        panelEstudosBaixo = new javax.swing.JPanel();
+        panelVideoInvestimentoBaixo = new javax.swing.JPanel();
+        lbl = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        panelFundo.setBackground(new java.awt.Color(255, 255, 255));
+        panelFundo.setLayout(null);
+
+        panelCabecalho.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelCabecalho.setLayout(null);
+
+        lblNomeUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblNomeUsuario.setText("Nome do usuario");
+        panelCabecalho.add(lblNomeUsuario);
+        lblNomeUsuario.setBounds(50, 10, 700, 30);
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnAbrirPerfil.png"))); // NOI18N
+        jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
+        panelCabecalho.add(jLabel10);
+        jLabel10.setBounds(10, 0, 50, 50);
+
+        panelFundo.add(panelCabecalho);
+        panelCabecalho.setBounds(-10, -10, 980, 50);
+
+        panelScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
+        panelScrollPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                panelScrollPanelPropertyChange(evt);
+            }
+        });
+        panelScrollPanel.setLayout(null);
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/perfil.png"))); // NOI18N
+        panelScrollPanel.add(jLabel4);
+        jLabel4.setBounds(59, 15, 64, 65);
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel5.setText("Email: ");
+        panelScrollPanel.add(jLabel5);
+        jLabel5.setBounds(14, 130, 45, 17);
+
+        lblEmailPerfilUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblEmailPerfilUsuario.setText("Email");
+        panelScrollPanel.add(lblEmailPerfilUsuario);
+        lblEmailPerfilUsuario.setBounds(65, 132, 120, 14);
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel7.setText("Nivel:");
+        panelScrollPanel.add(jLabel7);
+        jLabel7.setBounds(14, 159, 45, 17);
+
+        lblNivelInvestimentoPerfilUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblNivelInvestimentoPerfilUsuario.setText("Investimento");
+        panelScrollPanel.add(lblNivelInvestimentoPerfilUsuario);
+        lblNivelInvestimentoPerfilUsuario.setBounds(65, 161, 110, 14);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/fundoAzulPerfil.png"))); // NOI18N
+        panelScrollPanel.add(jLabel6);
+        jLabel6.setBounds(0, 228, 148, 273);
+
+        lblAlterarNome.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblAlterarNome.setText("Alterar nome");
+        lblAlterarNome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblAlterarNome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAlterarNomeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAlterarNomeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAlterarNomeMouseExited(evt);
+            }
+        });
+        panelScrollPanel.add(lblAlterarNome);
+        lblAlterarNome.setBounds(53, 98, 70, 14);
+
+        scrollPanelPerfil.setViewportView(panelScrollPanel);
+
+        panelFundo.add(scrollPanelPerfil);
+        scrollPanelPerfil.setBounds(-10, 30, 190, 520);
+
+        panelUsuarios.setBackground(new java.awt.Color(255, 255, 255));
+        panelUsuarios.setLayout(null);
+
+        panelSelecaoDeFuncoes.setBackground(new java.awt.Color(255, 255, 255));
+        panelSelecaoDeFuncoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelSelecaoDeFuncoes.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+
+        lblInvestimentos.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblInvestimentos.setText("Investimentos");
+        lblInvestimentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblInvestimentosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblInvestimentosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblInvestimentosMouseExited(evt);
+            }
+        });
+
+        lblEstudos.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblEstudos.setText("Estudos");
+        lblEstudos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEstudosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblEstudosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblEstudosMouseExited(evt);
+            }
+        });
+
+        lblCarteira.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblCarteira.setText("Carteira");
+        lblCarteira.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCarteiraMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCarteiraMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCarteiraMouseExited(evt);
+            }
+        });
+
+        lblSair.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblSair.setText("Sair");
+        lblSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSairMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSairMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblSairMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lblSairMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSelecaoDeFuncoesLayout = new javax.swing.GroupLayout(panelSelecaoDeFuncoes);
+        panelSelecaoDeFuncoes.setLayout(panelSelecaoDeFuncoesLayout);
+        panelSelecaoDeFuncoesLayout.setHorizontalGroup(
+            panelSelecaoDeFuncoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSelecaoDeFuncoesLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(panelSelecaoDeFuncoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEstudos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblInvestimentos)
+                    .addComponent(lblCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(52, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSelecaoDeFuncoesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSair, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
+        );
+        panelSelecaoDeFuncoesLayout.setVerticalGroup(
+            panelSelecaoDeFuncoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSelecaoDeFuncoesLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(lblEstudos)
+                .addGap(35, 35, 35)
+                .addComponent(lblInvestimentos)
+                .addGap(34, 34, 34)
+                .addComponent(lblCarteira)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
+                .addComponent(lblSair)
+                .addGap(62, 62, 62))
+        );
+
+        panelUsuarios.add(panelSelecaoDeFuncoes);
+        panelSelecaoDeFuncoes.setBounds(-7, -10, 170, 550);
+
+        panelCarteira.setBackground(new java.awt.Color(255, 255, 255));
+        panelCarteira.setLayout(null);
+
+        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel1.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("R$");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(30, 60, 46, 42);
+
+        lblSaldo.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        lblSaldo.setForeground(new java.awt.Color(255, 255, 255));
+        lblSaldo.setText("0,00");
+        jPanel1.add(lblSaldo);
+        lblSaldo.setBounds(80, 60, 720, 42);
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Saldo disponível");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(26, 25, 133, 22);
+
+        txtValor.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel1.add(txtValor);
+        txtValor.setBounds(30, 160, 270, 36);
+
+        btnRetirar.setBackground(new java.awt.Color(255, 0, 51));
+        btnRetirar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnRetirar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRetirar.setText("Retirar");
+        btnRetirar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRetirar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetirarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRetirar);
+        btnRetirar.setBounds(310, 160, 110, 40);
+
+        btnDepositar.setBackground(new java.awt.Color(0, 0, 255));
+        btnDepositar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnDepositar.setForeground(new java.awt.Color(255, 255, 255));
+        btnDepositar.setText("Depositar");
+        btnDepositar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDepositar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDepositarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDepositar);
+        btnDepositar.setBounds(440, 160, 110, 40);
+
+        panelCarteira.add(jPanel1);
+        jPanel1.setBounds(0, 200, 800, 330);
+
+        jLabel66.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel66.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel66.setText("Minha conta");
+        panelCarteira.add(jLabel66);
+        jLabel66.setBounds(20, 20, 270, 30);
+
+        jButton2.setBackground(new java.awt.Color(102, 153, 255));
+        jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("SENAC");
+        panelCarteira.add(jButton2);
+        jButton2.setBounds(20, 150, 90, 40);
+
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jButton1.setText("+");
+        panelCarteira.add(jButton1);
+        jButton1.setBounds(120, 150, 50, 40);
+
+        btnVerSaldo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEyeIsVisible.png"))); // NOI18N
+        btnVerSaldo.setSelected(true);
+        btnVerSaldo.setBorder(null);
+        btnVerSaldo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVerSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerSaldoActionPerformed(evt);
+            }
+        });
+        panelCarteira.add(btnVerSaldo);
+        btnVerSaldo.setBounds(650, 10, 51, 40);
+
+        panelUsuarios.add(panelCarteira);
+        panelCarteira.setBounds(160, 10, 780, 520);
+
+        panelInvestimento.setBackground(new java.awt.Color(255, 255, 255));
+        panelInvestimento.setLayout(null);
+
+        cmbTipoDePrazo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Meses", "Anos" }));
+        panelInvestimento.add(cmbTipoDePrazo);
+        cmbTipoDePrazo.setBounds(240, 220, 90, 30);
+
+        sliderTaxa.setMaximum(20);
+        sliderTaxa.setMinimum(2);
+        sliderTaxa.setToolTipText("");
+        sliderTaxa.setValue(5);
+        sliderTaxa.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderTaxaStateChanged(evt);
+            }
+        });
+        panelInvestimento.add(sliderTaxa);
+        sliderTaxa.setBounds(20, 310, 320, 22);
+
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setText("Valor da aplicação");
+        panelInvestimento.add(jLabel15);
+        jLabel15.setBounds(30, 80, 140, 20);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel18.setText(" % a.a.");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+        );
+
+        lblPorcentagem.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblPorcentagem.setForeground(new java.awt.Color(0, 0, 0));
+        lblPorcentagem.setText("5");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblPorcentagem, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblPorcentagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        panelInvestimento.add(jPanel3);
+        jPanel3.setBounds(30, 280, 300, 28);
+
+        panelPrazo.setBackground(new java.awt.Color(255, 255, 255));
+        panelPrazo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txtPrazo.setBackground(new java.awt.Color(255, 255, 255));
+        txtPrazo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtPrazo.setBorder(null);
+        txtPrazo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPrazoFocusGained(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelPrazoLayout = new javax.swing.GroupLayout(panelPrazo);
+        panelPrazo.setLayout(panelPrazoLayout);
+        panelPrazoLayout.setHorizontalGroup(
+            panelPrazoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPrazoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtPrazo, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelPrazoLayout.setVerticalGroup(
+            panelPrazoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtPrazo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+        );
+
+        panelInvestimento.add(panelPrazo);
+        panelPrazo.setBounds(30, 220, 210, 30);
+
+        panelInvestimentoMensal.setBackground(new java.awt.Color(255, 255, 255));
+        panelInvestimentoMensal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txtInvestimentoMensal.setBackground(new java.awt.Color(255, 255, 255));
+        txtInvestimentoMensal.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtInvestimentoMensal.setBorder(null);
+        txtInvestimentoMensal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtInvestimentoMensalFocusGained(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInvestimentoMensalLayout = new javax.swing.GroupLayout(panelInvestimentoMensal);
+        panelInvestimentoMensal.setLayout(panelInvestimentoMensalLayout);
+        panelInvestimentoMensalLayout.setHorizontalGroup(
+            panelInvestimentoMensalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInvestimentoMensalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtInvestimentoMensal, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelInvestimentoMensalLayout.setVerticalGroup(
+            panelInvestimentoMensalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtInvestimentoMensal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+        );
+
+        panelInvestimento.add(panelInvestimentoMensal);
+        panelInvestimentoMensal.setBounds(30, 160, 300, 30);
+
+        panelValorAplicacao.setBackground(new java.awt.Color(255, 255, 255));
+        panelValorAplicacao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txtValorDaApilcacao.setBackground(new java.awt.Color(255, 255, 255));
+        txtValorDaApilcacao.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtValorDaApilcacao.setBorder(null);
+        txtValorDaApilcacao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtValorDaApilcacaoFocusGained(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelValorAplicacaoLayout = new javax.swing.GroupLayout(panelValorAplicacao);
+        panelValorAplicacao.setLayout(panelValorAplicacaoLayout);
+        panelValorAplicacaoLayout.setHorizontalGroup(
+            panelValorAplicacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelValorAplicacaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtValorDaApilcacao, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelValorAplicacaoLayout.setVerticalGroup(
+            panelValorAplicacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtValorDaApilcacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+        );
+
+        panelInvestimento.add(panelValorAplicacao);
+        panelValorAplicacao.setBounds(30, 100, 300, 30);
+
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel16.setText("Taxa");
+        panelInvestimento.add(jLabel16);
+        jLabel16.setBounds(30, 260, 37, 17);
+
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel17.setText("Prazo");
+        panelInvestimento.add(jLabel17);
+        jLabel17.setBounds(30, 200, 37, 17);
+
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel19.setText("Investimento mensal");
+        panelInvestimento.add(jLabel19);
+        jLabel19.setBounds(30, 140, 140, 17);
+
+        jLabel20.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel20.setText("Simulação");
+        panelInvestimento.add(jLabel20);
+        jLabel20.setBounds(30, 30, 130, 30);
+
+        jLabel25.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel25.setText("Em");
+
+        lblQuantidadeDeTempo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblQuantidadeDeTempo.setText("1");
+
+        lblTipoDePrazo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblTipoDePrazo.setText("meses");
+
+        jLabel26.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel26.setText("você teria:");
+
+        jLabel27.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(51, 102, 255));
+        jLabel27.setText("R$");
+
+        lblValorResultado.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        lblValorResultado.setForeground(new java.awt.Color(51, 102, 255));
+        lblValorResultado.setText("0,00");
+
+        jLabel28.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel28.setText("rendimento bruto:");
+
+        lblRendimentoBruto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblRendimentoBruto.setForeground(new java.awt.Color(51, 255, 0));
+        lblRendimentoBruto.setText("R$ 0,00");
+
+        jLabel29.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel29.setText("total investido:");
+
+        lblTotalInvestido.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblTotalInvestido.setText("R$ 0,00");
+
+        javax.swing.GroupLayout panelResultadoSimulacaoLayout = new javax.swing.GroupLayout(panelResultadoSimulacao);
+        panelResultadoSimulacao.setLayout(panelResultadoSimulacaoLayout);
+        panelResultadoSimulacaoLayout.setHorizontalGroup(
+            panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblRendimentoBruto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                        .addComponent(jLabel29)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblTotalInvestido, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                        .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblQuantidadeDeTempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                                .addComponent(lblTipoDePrazo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblValorResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        panelResultadoSimulacaoLayout.setVerticalGroup(
+            panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelResultadoSimulacaoLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel25)
+                    .addComponent(lblQuantidadeDeTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTipoDePrazo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblValorResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel29)
+                    .addComponent(lblTotalInvestido))
+                .addGap(13, 13, 13)
+                .addGroup(panelResultadoSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel28)
+                    .addComponent(lblRendimentoBruto)))
+        );
+
+        panelSemResultado.setLayout(null);
+
+        jLabel22.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel22.setText("Veja quanto seu  patrimônio");
+        panelSemResultado.add(jLabel22);
+        jLabel22.setBounds(40, 130, 220, 19);
+
+        jLabel23.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel23.setText("pode render");
+        panelSemResultado.add(jLabel23);
+        jLabel23.setBounds(100, 150, 88, 17);
+
+        jLabel24.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel24.setText("Informe os valores para simular");
+        panelSemResultado.add(jLabel24);
+        jLabel24.setBounds(50, 170, 200, 17);
+
+        javax.swing.GroupLayout panelSimulacaoLayout = new javax.swing.GroupLayout(panelSimulacao);
+        panelSimulacao.setLayout(panelSimulacaoLayout);
+        panelSimulacaoLayout.setHorizontalGroup(
+            panelSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSimulacaoLayout.createSequentialGroup()
+                .addComponent(panelResultadoSimulacao, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 32, Short.MAX_VALUE))
+            .addGroup(panelSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelSimulacaoLayout.createSequentialGroup()
+                    .addComponent(panelSemResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        panelSimulacaoLayout.setVerticalGroup(
+            panelSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelResultadoSimulacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelSimulacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panelSemResultado, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
+        );
+
+        panelInvestimento.add(panelSimulacao);
+        panelSimulacao.setBounds(370, 20, 280, 370);
+
+        lblSimular.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblSimular.setForeground(new java.awt.Color(51, 102, 255));
+        lblSimular.setText("Simular investimento");
+        lblSimular.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSimular.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSimularMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSimularMouseEntered(evt);
+            }
+        });
+        panelInvestimento.add(lblSimular);
+        lblSimular.setBounds(120, 350, 130, 16);
+
+        lblValorInsuficiente.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblValorInsuficiente.setForeground(new java.awt.Color(255, 0, 0));
+        lblValorInsuficiente.setText("Valor insuficiente na carteira!");
+        panelInvestimento.add(lblValorInsuficiente);
+        lblValorInsuficiente.setBounds(100, 380, 190, 20);
+
+        panelUsuarios.add(panelInvestimento);
+        panelInvestimento.setBounds(180, 10, 760, 520);
+
+        panelEstudosMedio.setBackground(new java.awt.Color(255, 255, 255));
+        panelEstudosMedio.setLayout(null);
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/videoEducacaoFinanceiraMedia.PNG"))); // NOI18N
+        jLabel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel21MouseClicked(evt);
+            }
+        });
+        panelEstudosMedio.add(jLabel21);
+        jLabel21.setBounds(0, 0, 419, 230);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/videoEducacaoFinanceiraMedia2.PNG"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        panelEstudosMedio.add(jLabel3);
+        jLabel3.setBounds(-5, 230, 430, 250);
+
+        jLabel30.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel30.setText("Atenção:");
+        panelEstudosMedio.add(jLabel30);
+        jLabel30.setBounds(460, 20, 56, 20);
+
+        jLabel31.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel31.setText("Caso deseje");
+        panelEstudosMedio.add(jLabel31);
+        jLabel31.setBounds(520, 20, 79, 20);
+
+        jLabel32.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel32.setText("cima do video que desejar");
+        panelEstudosMedio.add(jLabel32);
+        jLabel32.setBounds(460, 60, 237, 17);
+
+        jLabel33.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel33.setText("seus conhecimentos e");
+        panelEstudosMedio.add(jLabel33);
+        jLabel33.setBounds(460, 290, 200, 20);
+
+        jLabel34.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel34.setText("aprender mais, clique em ");
+        panelEstudosMedio.add(jLabel34);
+        jLabel34.setBounds(460, 40, 163, 17);
+
+        jLabel35.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel35.setText("e você será direcionado");
+        panelEstudosMedio.add(jLabel35);
+        jLabel35.setBounds(460, 80, 152, 20);
+
+        jLabel36.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel36.setText("estudos.");
+        panelEstudosMedio.add(jLabel36);
+        jLabel36.setBounds(460, 100, 65, 20);
+
+        jLabel37.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel37.setText("Um conteúdo intermediário");
+        panelEstudosMedio.add(jLabel37);
+        jLabel37.setBounds(460, 130, 180, 20);
+
+        jLabel38.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel38.setText("sobre educação financeira");
+        panelEstudosMedio.add(jLabel38);
+        jLabel38.setBounds(460, 150, 180, 20);
+
+        jLabel39.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel39.setText("é voltado para indivíduos");
+        panelEstudosMedio.add(jLabel39);
+        jLabel39.setBounds(460, 170, 200, 20);
+
+        jLabel40.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel40.setText("que já possuem uma");
+        panelEstudosMedio.add(jLabel40);
+        jLabel40.setBounds(460, 190, 200, 20);
+
+        jLabel41.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel41.setText("compreensão básica dos");
+        panelEstudosMedio.add(jLabel41);
+        jLabel41.setBounds(460, 210, 200, 20);
+
+        jLabel42.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel42.setText("conceitos financeiros ");
+        panelEstudosMedio.add(jLabel42);
+        jLabel42.setBounds(460, 230, 200, 20);
+
+        jLabel43.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel43.setText("fundamentais e estão");
+        panelEstudosMedio.add(jLabel43);
+        jLabel43.setBounds(460, 250, 200, 20);
+
+        jLabel44.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel44.setText("detalhados.");
+        panelEstudosMedio.add(jLabel44);
+        jLabel44.setBounds(460, 390, 200, 20);
+
+        jLabel45.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel45.setText("prontos para aprofundar");
+        panelEstudosMedio.add(jLabel45);
+        jLabel45.setBounds(460, 270, 200, 20);
+
+        jLabel46.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel46.setText("habilidades. Este nível de ");
+        panelEstudosMedio.add(jLabel46);
+        jLabel46.setBounds(460, 310, 200, 20);
+
+        jLabel47.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel47.setText("educação financeira ");
+        panelEstudosMedio.add(jLabel47);
+        jLabel47.setBounds(460, 330, 200, 20);
+
+        jLabel48.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel48.setText("geralmente cobre tópicos");
+        panelEstudosMedio.add(jLabel48);
+        jLabel48.setBounds(460, 350, 200, 20);
+
+        jLabel49.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel49.setText("mais complexos e");
+        panelEstudosMedio.add(jLabel49);
+        jLabel49.setBounds(460, 370, 200, 20);
+
+        panelUsuarios.add(panelEstudosMedio);
+        panelEstudosMedio.setBounds(180, 10, 760, 520);
+
+        panelEstudosAlto.setBackground(new java.awt.Color(255, 255, 255));
+        panelEstudosAlto.setLayout(null);
+
+        jLabel50.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/videoEducacaoFinanceiraalto.PNG"))); // NOI18N
+        jLabel50.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel50.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel50MouseClicked(evt);
+            }
+        });
+        panelEstudosAlto.add(jLabel50);
+        jLabel50.setBounds(10, 0, 410, 240);
+
+        jLabel51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/videoEducacaoFinanceiraalto2.PNG"))); // NOI18N
+        jLabel51.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel51.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel51MouseClicked(evt);
+            }
+        });
+        panelEstudosAlto.add(jLabel51);
+        jLabel51.setBounds(10, 240, 410, 250);
+
+        jLabel52.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel52.setText("Atenção:");
+        panelEstudosAlto.add(jLabel52);
+        jLabel52.setBounds(460, 20, 56, 20);
+
+        jLabel53.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel53.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel53.setText("Caso deseje");
+        panelEstudosAlto.add(jLabel53);
+        jLabel53.setBounds(520, 20, 79, 20);
+
+        jLabel54.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel54.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel54.setText("cima de algum vídeo");
+        panelEstudosAlto.add(jLabel54);
+        jLabel54.setBounds(460, 60, 237, 17);
+
+        jLabel55.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel55.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel55.setText("detalhadas dos mercados");
+        panelEstudosAlto.add(jLabel55);
+        jLabel55.setBounds(460, 310, 200, 17);
+
+        jLabel56.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel56.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel56.setText("aprender mais, clique em ");
+        panelEstudosAlto.add(jLabel56);
+        jLabel56.setBounds(460, 40, 163, 17);
+
+        jLabel57.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel57.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel57.setText("e você será direcionado");
+        panelEstudosAlto.add(jLabel57);
+        jLabel57.setBounds(460, 80, 152, 20);
+
+        jLabel58.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel58.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel58.setText("aos estudos.");
+        panelEstudosAlto.add(jLabel58);
+        jLabel58.setBounds(460, 100, 100, 20);
+
+        jLabel59.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel59.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel59.setText("Um conteúdo avançado");
+        panelEstudosAlto.add(jLabel59);
+        jLabel59.setBounds(460, 130, 180, 20);
+
+        jLabel60.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel60.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel60.setText("sobre educação financeira");
+        panelEstudosAlto.add(jLabel60);
+        jLabel60.setBounds(460, 150, 180, 20);
+
+        jLabel61.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel61.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel61.setText("destina-se a indivíduos");
+        panelEstudosAlto.add(jLabel61);
+        jLabel61.setBounds(460, 170, 200, 20);
+
+        jLabel62.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel62.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel62.setText("com conhecimento sólido");
+        panelEstudosAlto.add(jLabel62);
+        jLabel62.setBounds(460, 190, 200, 20);
+
+        jLabel63.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel63.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel63.setText("e experiência prática em");
+        panelEstudosAlto.add(jLabel63);
+        jLabel63.setBounds(460, 210, 200, 20);
+
+        jLabel64.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel64.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel64.setText("finanças e investimentos.");
+        panelEstudosAlto.add(jLabel64);
+        jLabel64.setBounds(460, 230, 200, 20);
+
+        jLabel65.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel65.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel65.setText("complexas, estratégias");
+        panelEstudosAlto.add(jLabel65);
+        jLabel65.setBounds(460, 270, 200, 20);
+
+        jLabel67.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel67.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel67.setText("sofisticadas e análises");
+        panelEstudosAlto.add(jLabel67);
+        jLabel67.setBounds(460, 290, 200, 20);
+
+        jLabel68.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel68.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel68.setText("financeiros e suas ");
+        panelEstudosAlto.add(jLabel68);
+        jLabel68.setBounds(460, 330, 200, 20);
+
+        jLabel69.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel69.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel69.setText("dinâmicas.");
+        panelEstudosAlto.add(jLabel69);
+        jLabel69.setBounds(460, 350, 200, 20);
+
+        jLabel72.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel72.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel72.setText("Este nível explora técnicas");
+        panelEstudosAlto.add(jLabel72);
+        jLabel72.setBounds(460, 250, 200, 20);
+
+        panelUsuarios.add(panelEstudosAlto);
+        panelEstudosAlto.setBounds(180, 10, 760, 520);
+
+        panelEstudosBaixo.setBackground(new java.awt.Color(255, 255, 255));
+        panelEstudosBaixo.setLayout(null);
+
+        panelVideoInvestimentoBaixo.setBackground(new java.awt.Color(255, 255, 255));
+
+        lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/educacaoFInanceiraVideo1.PNG"))); // NOI18N
+        lbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblMouseEntered(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel9.setText("Atenção:");
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Caso deseje aprender mais, clique em cima do video e será");
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("direcionado a uma aula de 5 minutos.");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("Eduque-se continuamente: Leia livros, assista a vídeos e participe de cursos");
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("sobre educacão financeira. Quanto mais você aprender, mais seguro se sentirá");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("para tomar decisões financeira inteligentes.");
+
+        javax.swing.GroupLayout panelVideoInvestimentoBaixoLayout = new javax.swing.GroupLayout(panelVideoInvestimentoBaixo);
+        panelVideoInvestimentoBaixo.setLayout(panelVideoInvestimentoBaixoLayout);
+        panelVideoInvestimentoBaixoLayout.setHorizontalGroup(
+            panelVideoInvestimentoBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVideoInvestimentoBaixoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelVideoInvestimentoBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addGroup(panelVideoInvestimentoBaixoLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8))
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel12))
+                .addContainerGap(11, Short.MAX_VALUE))
+            .addGroup(panelVideoInvestimentoBaixoLayout.createSequentialGroup()
+                .addComponent(lbl)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        panelVideoInvestimentoBaixoLayout.setVerticalGroup(
+            panelVideoInvestimentoBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelVideoInvestimentoBaixoLayout.createSequentialGroup()
+                .addComponent(lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelVideoInvestimentoBaixoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addContainerGap())
+        );
+
+        panelEstudosBaixo.add(panelVideoInvestimentoBaixo);
+        panelVideoInvestimentoBaixo.setBounds(80, 20, 520, 440);
+
+        panelUsuarios.add(panelEstudosBaixo);
+        panelEstudosBaixo.setBounds(180, 10, 760, 520);
+
+        panelFundo.add(panelUsuarios);
+        panelUsuarios.setBounds(0, 48, 940, 550);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE))
+        );
+
+        setSize(new java.awt.Dimension(902, 606));
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void panelScrollPanelPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_panelScrollPanelPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_panelScrollPanelPropertyChange
+
+    private void lblEstudosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEstudosMouseEntered
+        lblEstudos.setForeground(Color.blue);
+    }//GEN-LAST:event_lblEstudosMouseEntered
+
+    private void lblEstudosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEstudosMouseExited
+        lblEstudos.setForeground(Color.black);
+    }//GEN-LAST:event_lblEstudosMouseExited
+
+    private void lblInvestimentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInvestimentosMouseExited
+        lblInvestimentos.setForeground(Color.black);
+    }//GEN-LAST:event_lblInvestimentosMouseExited
+
+    private void lblInvestimentosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInvestimentosMouseEntered
+        lblInvestimentos.setForeground(Color.blue);
+    }//GEN-LAST:event_lblInvestimentosMouseEntered
+
+    private void lblCarteiraMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCarteiraMouseExited
+        lblCarteira.setForeground(Color.black);
+    }//GEN-LAST:event_lblCarteiraMouseExited
+
+    private void lblCarteiraMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCarteiraMouseEntered
+        lblCarteira.setForeground(Color.blue);
+    }//GEN-LAST:event_lblCarteiraMouseEntered
+
+    private void lblSairMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMouseEntered
+        lblSair.setForeground(Color.red);
+    }//GEN-LAST:event_lblSairMouseEntered
+
+    private void lblSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblSairMousePressed
+
+    private void lblSairMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMouseExited
+        lblSair.setForeground(Color.black);
+    }//GEN-LAST:event_lblSairMouseExited
+
+    private void lblSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMouseClicked
+        dispose();
+        new PaginaLogin().setVisible(true);
+
+    }//GEN-LAST:event_lblSairMouseClicked
+
+    private void lblEstudosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEstudosMouseClicked
+        retirarPaineis();
+        selecionarPaineisDeEstudos();
+    }//GEN-LAST:event_lblEstudosMouseClicked
+
+    private void lblInvestimentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInvestimentosMouseClicked
+        retirarPaineis();
+        panelInvestimento.setVisible(true);
+        panelResultadoSimulacao.setVisible(false);
+        panelSemResultado.setVisible(true);
+        txtPrazo.setText("");
+        txtValorDaApilcacao.setText("");
+        txtInvestimentoMensal.setText("");
+    }//GEN-LAST:event_lblInvestimentosMouseClicked
+
+    private void lblCarteiraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCarteiraMouseClicked
+        retirarPaineis();
+        panelCarteira.setVisible(true);
+    }//GEN-LAST:event_lblCarteiraMouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        if (scrollPanelPerfil.isVisible()) {
+            scrollPanelPerfil.setVisible(false);
+        } else {
+            scrollPanelPerfil.setVisible(true);
+        }
+    }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void lblMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMouseEntered
+
+    }//GEN-LAST:event_lblMouseEntered
+
+    private void lblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMouseClicked
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=HzRK6wTSHHU"));
+        } catch (URISyntaxException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_lblMouseClicked
+
+    private void sliderTaxaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderTaxaStateChanged
+        lblPorcentagem.setText(String.format("%d", sliderTaxa.getValue()));
+    }//GEN-LAST:event_sliderTaxaStateChanged
+
+    private void lblSimularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSimularMouseClicked
+
+        if (!entradasSimulacaoEstaoVazias()) {
+
+            panelSemResultado.setVisible(false);
+            panelResultadoSimulacao.setVisible(true);
+            removerEstiloBordaErro(panelValorAplicacao);
+            removerEstiloBordaErro(panelInvestimentoMensal);
+
+            String valorAplicacaoTexto = txtValorDaApilcacao.getText();
+            String investimentoMensalTexto = txtInvestimentoMensal.getText();
+
+            if (valorAplicacaoTexto.contains(",")) {
+                valorAplicacaoTexto = valorAplicacaoTexto.replace(",", ".");
+            }
+            if (investimentoMensalTexto.contains(",")) {
+                investimentoMensalTexto = investimentoMensalTexto.replace(",", ".");
+            }
+
+            double valorAplicacao = Double.parseDouble(valorAplicacaoTexto);
+            double investimentoMensal = Double.parseDouble(investimentoMensalTexto);
+
+            int prazo = Integer.parseInt(txtPrazo.getText());
+            String tipoDePrazo = cmbTipoDePrazo.getSelectedItem().toString();
+            double taxa = Double.parseDouble(lblPorcentagem.getText());
+            double totalInvestido = 0;
+            if (tipoDePrazo.equals("Anos")) {
+                totalInvestido = valorAplicacao + (investimentoMensal * (prazo * 12));
+            } else {
+                totalInvestido = valorAplicacao + (investimentoMensal * prazo);
+            }
+
+            if (totalInvestido > carteira.getSaldo()) {
+                panelSemResultado.setVisible(true);
+                panelResultadoSimulacao.setVisible(false);
+                adicionarEstiloBordaErro(panelValorAplicacao);
+                adicionarEstiloBordaErro(panelInvestimentoMensal);
+                lblValorInsuficiente.setVisible(true);
+            } else {
+
+                double resultado = calcularValorResultado(valorAplicacao, investimentoMensal, prazo, tipoDePrazo, taxa);
+
+                double rendimentoBruto = resultado - totalInvestido;
+
+                lblQuantidadeDeTempo.setText(String.format("%d", prazo));
+                lblTipoDePrazo.setText(tipoDePrazo);
+                lblValorResultado.setText(String.format("%.2f", resultado));
+                lblTotalInvestido.setText(String.format("R$ %.2f", totalInvestido));
+                lblRendimentoBruto.setText(String.format("R$ %.2f", rendimentoBruto));
+            }
+        }
+    }//GEN-LAST:event_lblSimularMouseClicked
+
+    private void txtValorDaApilcacaoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValorDaApilcacaoFocusGained
+        removerEstiloBordaErro(panelValorAplicacao);
+        lblValorInsuficiente.setVisible(false);
+    }//GEN-LAST:event_txtValorDaApilcacaoFocusGained
+
+    private void txtInvestimentoMensalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInvestimentoMensalFocusGained
+        removerEstiloBordaErro(panelInvestimentoMensal);
+        lblValorInsuficiente.setVisible(false);
+    }//GEN-LAST:event_txtInvestimentoMensalFocusGained
+
+    private void txtPrazoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPrazoFocusGained
+        removerEstiloBordaErro(panelPrazo);
+    }//GEN-LAST:event_txtPrazoFocusGained
+
+    private void lblSimularMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSimularMouseEntered
+
+    }//GEN-LAST:event_lblSimularMouseEntered
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=KMO3k_2Aa6M"));
+        } catch (URISyntaxException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=3iKsCq0tKw4&t=2s"));
+        } catch (URISyntaxException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jLabel21MouseClicked
+
+    private void jLabel50MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel50MouseClicked
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=Vj0kFYfL0n8"));
+        } catch (URISyntaxException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jLabel50MouseClicked
+
+    private void jLabel51MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel51MouseClicked
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=gyNzcXB--m8"));
+        } catch (URISyntaxException | IOException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jLabel51MouseClicked
+
+    private void btnRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarActionPerformed
+        String valorRetiradaTxt = txtValor.getText();
+        if (valorRetiradaTxt.contains(",")) {
+            valorRetiradaTxt = valorRetiradaTxt.replace(",", ".");
+        }
+        float valorRetirada = Float.parseFloat(valorRetiradaTxt);
+
+        carteira.retirar(valorRetirada);
+        try {
+            bd.atualizarSaldo(carteira);
+            float saldoAtualizado = carteira.getSaldo();
+            lblSaldo.setText(String.format("%.2f", saldoAtualizado));
+            txtValor.setText("");
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnRetirarActionPerformed
+
+    private void btnDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepositarActionPerformed
+        String valorDepositoTxt = txtValor.getText();
+        if (valorDepositoTxt.contains(",")) {
+            valorDepositoTxt = valorDepositoTxt.replace(",", ".");
+        }
+        float valorDeposito = Float.parseFloat(valorDepositoTxt);
+
+        carteira.depositar(valorDeposito);
+        try {
+            bd.atualizarSaldo(carteira);
+            float saldoAtualizado = carteira.getSaldo();
+            lblSaldo.setText(String.format("%.2f", saldoAtualizado));
+            txtValor.setText("");
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnDepositarActionPerformed
+
+    private void btnVerSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerSaldoActionPerformed
+        if (btnVerSaldo.isSelected()) {
+            btnVerSaldo.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeIsVisible.png")));
+            float saldoAtualizado = carteira.getSaldo();
+            lblSaldo.setText(String.format("%.2f", saldoAtualizado));
+
+        } else {
+            btnVerSaldo.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png")));
+            int tamanhoStringSaldo = lblSaldo.getText().length();
+            lblSaldo.setText("*");
+            for (int i = 1; i <= tamanhoStringSaldo; i++) {
+                lblSaldo.setText(lblSaldo.getText()+"*");
+            }
+        }
+    
+    }//GEN-LAST:event_btnVerSaldoActionPerformed
+
+    private void lblAlterarNomeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlterarNomeMouseEntered
+        lblAlterarNome.setForeground(Color.blue);
+    }//GEN-LAST:event_lblAlterarNomeMouseEntered
+
+    private void lblAlterarNomeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlterarNomeMouseExited
+        lblAlterarNome.setForeground(Color.black);
+    }//GEN-LAST:event_lblAlterarNomeMouseExited
+
+    private void lblAlterarNomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlterarNomeMouseClicked
+        String novoNome = JOptionPane.showInputDialog(null, "", "Informe um novo nome: ", JOptionPane.PLAIN_MESSAGE);
+        try {
+            bd.atualizarNome(novoNome, email);
+            lblNomeUsuario.setText(novoNome);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_lblAlterarNomeMouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                UIManager.setLookAndFeel(new FlatMacLightLaf());
+                break;
+
+            }
+        }
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(PaginaAdministrador.class
+                .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new PaginaUsuario().setVisible(true);
+        }
+    });
+}
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDepositar;
+    private javax.swing.JButton btnRetirar;
+    private javax.swing.JToggleButton btnVerSaldo;
+    private javax.swing.JComboBox<String> cmbTipoDePrazo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lbl;
+    private javax.swing.JLabel lblAlterarNome;
+    private javax.swing.JLabel lblCarteira;
+    private javax.swing.JLabel lblEmailPerfilUsuario;
+    private javax.swing.JLabel lblEstudos;
+    private javax.swing.JLabel lblInvestimentos;
+    private javax.swing.JLabel lblNivelInvestimentoPerfilUsuario;
+    private javax.swing.JLabel lblNomeUsuario;
+    private javax.swing.JLabel lblPorcentagem;
+    private javax.swing.JLabel lblQuantidadeDeTempo;
+    private javax.swing.JLabel lblRendimentoBruto;
+    private javax.swing.JLabel lblSair;
+    private javax.swing.JLabel lblSaldo;
+    private javax.swing.JLabel lblSimular;
+    private javax.swing.JLabel lblTipoDePrazo;
+    private javax.swing.JLabel lblTotalInvestido;
+    private javax.swing.JLabel lblValorInsuficiente;
+    private javax.swing.JLabel lblValorResultado;
+    private javax.swing.JPanel panelCabecalho;
+    private javax.swing.JPanel panelCarteira;
+    private javax.swing.JPanel panelEstudosAlto;
+    private javax.swing.JPanel panelEstudosBaixo;
+    private javax.swing.JPanel panelEstudosMedio;
+    private javax.swing.JPanel panelFundo;
+    private javax.swing.JPanel panelInvestimento;
+    private javax.swing.JPanel panelInvestimentoMensal;
+    private javax.swing.JPanel panelPrazo;
+    private javax.swing.JPanel panelResultadoSimulacao;
+    private javax.swing.JPanel panelScrollPanel;
+    private javax.swing.JPanel panelSelecaoDeFuncoes;
+    private javax.swing.JPanel panelSemResultado;
+    private javax.swing.JPanel panelSimulacao;
+    private javax.swing.JPanel panelUsuarios;
+    private javax.swing.JPanel panelValorAplicacao;
+    private javax.swing.JPanel panelVideoInvestimentoBaixo;
+    private javax.swing.JScrollPane scrollPanelPerfil;
+    private javax.swing.JSlider sliderTaxa;
+    private javax.swing.JTextField txtInvestimentoMensal;
+    private javax.swing.JTextField txtPrazo;
+    private javax.swing.JTextField txtValor;
+    private javax.swing.JTextField txtValorDaApilcacao;
+    // End of variables declaration//GEN-END:variables
+}

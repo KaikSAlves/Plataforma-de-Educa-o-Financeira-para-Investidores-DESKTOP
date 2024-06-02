@@ -4,8 +4,23 @@
  */
 package frames;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dao.BancoDeDados;
+import entities.Usuario;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,7 +28,9 @@ import javax.swing.ImageIcon;
  */
 public class PaginaAdministrador extends javax.swing.JFrame {
 
-    String nivelConhecimento = "";
+    DefaultTableModel model;
+    BancoDeDados bd;
+    String nivelConhecimentoInvestimento = "";
 
     /**
      * Creates new form PaginaAdministrador
@@ -24,19 +41,60 @@ public class PaginaAdministrador extends javax.swing.JFrame {
 
     }
 
+    public void adicionarErroLoginEstilo(JPanel panel) {
+        LineBorder border = new LineBorder(Color.red, 2);
+        panel.setBorder(border);
+    }
+
+    public void removerErroLoginEstilo(JPanel panel) {
+        LineBorder border = new LineBorder(Color.black, 2);
+        panel.setBorder(border);
+    }
+
+    public void removerPlaceHolderEstilo(JTextField text) {
+        Font fonte = text.getFont();
+        fonte = fonte.deriveFont(Font.PLAIN);
+        text.setFont(fonte);
+    }
+
+    public void adicionarPlaceHolderEstilo(JTextField text) {
+        Font fonte = text.getFont();
+        fonte = fonte.deriveFont(Font.ITALIC);
+        text.setFont(fonte);
+    }
+
+    public void adicionarFocusGainedEstiloBorda(JPanel panel) {
+        LineBorder border = new LineBorder(Color.blue, 2);
+        panel.setBorder(border);
+    }
+
+    public void adicionarFocusLostEstiloBorda(JPanel panel) {
+        LineBorder border = new LineBorder(Color.black, 2);
+        panel.setBorder(border);
+    }
+
     public void componentesAlterados() {
-        panelBar.setBackground(Color.white);
-        panelFundo.setBackground(Color.white);
+        adicionarPlaceHolderEstilo(txtEmailSelecionarAlterar);
+        adicionarPlaceHolderEstilo(txtEmailListar);
+        adicionarPlaceHolderEstilo(txtUsuarioListar);
         retirarPaineis();
-        panelUsuarioListar.setBackground(Color.white);
-        txtUsuarioListar.setBackground(new Color(0, 0, 0, 0));
-        tblListar.setBackground(Color.white);
+        lblSenhaIncorreta.setVisible(false);
+        lblAlteradoComSucesso.setVisible(false);
+        lblAlteradoComSucesso.setVisible(false);
+        panelAlterando.setVisible(false);
+        lblDadosInvalidos.setVisible(false);
+        lblExcluidoComSucesso.setVisible(false);
+        panelListar.setVisible(true);
+        model = (DefaultTableModel) tblListar.getModel();
+        txtPasswordSelecionarAlterar.setEchoChar((char) 0);
+        txtPasswordExcluir.setEchoChar((char) 0);
+        adicionarPlaceHolderEstilo(txtEmailExcluir);
+        adicionarPlaceHolderEstilo(txtPasswordExcluir);
+
     }
 
     public void retirarPaineis() {
         panelAlterar.setVisible(false);
-        panelCadastrar.setVisible(false);
-        panelBuscar.setVisible(false);
         panelListar.setVisible(false);
         panelExcluir.setVisible(false);
     }
@@ -50,15 +108,63 @@ public class PaginaAdministrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jRadioButton1 = new javax.swing.JRadioButton();
         panelFundo = new javax.swing.JPanel();
         panelExcluir = new javax.swing.JPanel();
+        panelEmailExcluir = new javax.swing.JPanel();
+        txtEmailExcluir = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        panelPasswordExcluir = new javax.swing.JPanel();
+        txtPasswordExcluir = new javax.swing.JPasswordField();
+        btnEyeExcluir = new javax.swing.JToggleButton();
+        jLabel18 = new javax.swing.JLabel();
+        btnEnviarExcluir = new javax.swing.JButton();
+        lblDadosInvalidos = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        lblExcluidoComSucesso = new javax.swing.JLabel();
         panelAlterar = new javax.swing.JPanel();
-        panelCadastrar = new javax.swing.JPanel();
-        panelBuscar = new javax.swing.JPanel();
+        panelAlteracao = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        lblSenhaIncorreta = new javax.swing.JLabel();
+        panelPasswordSelecionarAlterar = new javax.swing.JPanel();
+        txtPasswordSelecionarAlterar = new javax.swing.JPasswordField();
+        btnEye = new javax.swing.JToggleButton();
+        jLabel5 = new javax.swing.JLabel();
+        panelEmailSelecionarAlterar = new javax.swing.JPanel();
+        txtEmailSelecionarAlterar = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        btnAlterar = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        panelAlterando = new javax.swing.JPanel();
+        panelEmailAlterando = new javax.swing.JPanel();
+        txtEmailAlterando = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        panelPasswordAlterando = new javax.swing.JPanel();
+        btnEyeAlterando = new javax.swing.JToggleButton();
+        jLabel14 = new javax.swing.JLabel();
+        txtPasswordAlterando = new javax.swing.JPasswordField();
+        panelNameAlterando = new javax.swing.JPanel();
+        txtNameAlterando = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        btnSalvarAlteracoes = new javax.swing.JButton();
+        lblAlteradoComSucesso = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblBaixo1 = new javax.swing.JLabel();
+        btnBaixoConhecimentoAlterar = new javax.swing.JButton();
+        btnMedioConhecimentoAlterar = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        btnAltoConhecimentoAlterar = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
         panelListar = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblListar = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
         panelUsuarioListar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtUsuarioListar = new javax.swing.JTextField();
@@ -69,136 +175,749 @@ public class PaginaAdministrador extends javax.swing.JFrame {
         lblBaixo = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        panelEmail = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtEmailListar = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblListar = new javax.swing.JTable();
         panelBar = new javax.swing.JPanel();
         lblListar = new javax.swing.JLabel();
-        lblBuscar = new javax.swing.JLabel();
-        lblCadastrar = new javax.swing.JLabel();
         lblAlterar = new javax.swing.JLabel();
         lblExcluir = new javax.swing.JLabel();
+        lblSair = new javax.swing.JLabel();
+
+        jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         panelFundo.setLayout(null);
 
-        javax.swing.GroupLayout panelExcluirLayout = new javax.swing.GroupLayout(panelExcluir);
-        panelExcluir.setLayout(panelExcluirLayout);
-        panelExcluirLayout.setHorizontalGroup(
-            panelExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
-        );
-        panelExcluirLayout.setVerticalGroup(
-            panelExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
+        panelExcluir.setBackground(new java.awt.Color(255, 255, 255));
+        panelExcluir.setLayout(null);
 
-        panelFundo.add(panelExcluir);
-        panelExcluir.setBounds(0, 40, 880, 480);
+        panelEmailExcluir.setBackground(new java.awt.Color(255, 255, 255));
+        panelEmailExcluir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        javax.swing.GroupLayout panelAlterarLayout = new javax.swing.GroupLayout(panelAlterar);
-        panelAlterar.setLayout(panelAlterarLayout);
-        panelAlterarLayout.setHorizontalGroup(
-            panelAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
-        );
-        panelAlterarLayout.setVerticalGroup(
-            panelAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
-
-        panelFundo.add(panelAlterar);
-        panelAlterar.setBounds(0, 40, 880, 480);
-
-        javax.swing.GroupLayout panelCadastrarLayout = new javax.swing.GroupLayout(panelCadastrar);
-        panelCadastrar.setLayout(panelCadastrarLayout);
-        panelCadastrarLayout.setHorizontalGroup(
-            panelCadastrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
-        );
-        panelCadastrarLayout.setVerticalGroup(
-            panelCadastrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
-
-        panelFundo.add(panelCadastrar);
-        panelCadastrar.setBounds(0, 40, 880, 480);
-
-        javax.swing.GroupLayout panelBuscarLayout = new javax.swing.GroupLayout(panelBuscar);
-        panelBuscar.setLayout(panelBuscarLayout);
-        panelBuscarLayout.setHorizontalGroup(
-            panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
-        );
-        panelBuscarLayout.setVerticalGroup(
-            panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
-
-        panelFundo.add(panelBuscar);
-        panelBuscar.setBounds(0, 40, 880, 480);
-
-        panelListar.setBackground(new java.awt.Color(255, 255, 255));
-        panelListar.setLayout(null);
-
-        tblListar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tblListar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"teste", "teste@gmail.com", "alto"}
-            },
-            new String [] {
-                "Nome", "Email", "Nivel Conhecimento"
+        txtEmailExcluir.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtEmailExcluir.setText("Email");
+        txtEmailExcluir.setBorder(null);
+        txtEmailExcluir.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailExcluirFocusGained(evt);
             }
-        ));
-        tblListar.setEnabled(false);
-        tblListar.setGridColor(new java.awt.Color(255, 255, 255));
-        tblListar.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(tblListar);
-
-        panelListar.add(jScrollPane1);
-        jScrollPane1.setBounds(24, 108, 828, 276);
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnListar.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailExcluirFocusLost(evt);
             }
         });
-        panelListar.add(jButton1);
-        jButton1.setBounds(360, 396, 140, 50);
+        txtEmailExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailExcluirActionPerformed(evt);
+            }
+        });
+        txtEmailExcluir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailExcluirKeyPressed(evt);
+            }
+        });
 
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/emailImg.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelEmailExcluirLayout = new javax.swing.GroupLayout(panelEmailExcluir);
+        panelEmailExcluir.setLayout(panelEmailExcluirLayout);
+        panelEmailExcluirLayout.setHorizontalGroup(
+            panelEmailExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmailExcluirLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEmailExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelEmailExcluirLayout.setVerticalGroup(
+            panelEmailExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmailExcluirLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelEmailExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtEmailExcluir)
+                    .addGroup(panelEmailExcluirLayout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 3, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        panelExcluir.add(panelEmailExcluir);
+        panelEmailExcluir.setBounds(36, 86, 393, 60);
+
+        panelPasswordExcluir.setBackground(new java.awt.Color(255, 255, 255));
+        panelPasswordExcluir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        txtPasswordExcluir.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtPasswordExcluir.setText("Senha");
+        txtPasswordExcluir.setBorder(null);
+        txtPasswordExcluir.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPasswordExcluirFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPasswordExcluirFocusLost(evt);
+            }
+        });
+        txtPasswordExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordExcluirActionPerformed(evt);
+            }
+        });
+        txtPasswordExcluir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordExcluirKeyPressed(evt);
+            }
+        });
+
+        btnEyeExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png"))); // NOI18N
+        btnEyeExcluir.setBorder(null);
+        btnEyeExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEyeExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEyeExcluirActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/passwordImg.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelPasswordExcluirLayout = new javax.swing.GroupLayout(panelPasswordExcluir);
+        panelPasswordExcluir.setLayout(panelPasswordExcluirLayout);
+        panelPasswordExcluirLayout.setHorizontalGroup(
+            panelPasswordExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPasswordExcluirLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPasswordExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEyeExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelPasswordExcluirLayout.setVerticalGroup(
+            panelPasswordExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPasswordExcluirLayout.createSequentialGroup()
+                .addGroup(panelPasswordExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPasswordExcluirLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(panelPasswordExcluirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPasswordExcluir)
+                            .addGroup(panelPasswordExcluirLayout.createSequentialGroup()
+                                .addGap(0, 2, Short.MAX_VALUE)
+                                .addComponent(btnEyeExcluir))))
+                    .addGroup(panelPasswordExcluirLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        panelExcluir.add(panelPasswordExcluir);
+        panelPasswordExcluir.setBounds(36, 164, 393, 60);
+
+        btnEnviarExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEnviar.png"))); // NOI18N
+        btnEnviarExcluir.setBorder(null);
+        btnEnviarExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEnviarExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarExcluirActionPerformed(evt);
+            }
+        });
+        panelExcluir.add(btnEnviarExcluir);
+        btnEnviarExcluir.setBounds(157, 395, 140, 50);
+
+        lblDadosInvalidos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblDadosInvalidos.setForeground(new java.awt.Color(255, 0, 0));
+        lblDadosInvalidos.setText("Email ou senha inválido!");
+        panelExcluir.add(lblDadosInvalidos);
+        lblDadosInvalidos.setBounds(40, 230, 154, 17);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel20.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel20.setText(" essa é uma ação perigosa e pode acarretar em danos no");
+
+        jLabel21.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel21.setText("sistema!");
+
+        jLabel22.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel22.setText("Tenha certeza que deseja excluir esse usuário!");
+
+        jLabel23.setBackground(new java.awt.Color(255, 0, 51));
+        jLabel23.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel23.setText("Cuidado,");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel20))
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel21))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel22)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        panelExcluir.add(jPanel1);
+        jPanel1.setBounds(36, 265, 393, 87);
+
+        lblExcluidoComSucesso.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblExcluidoComSucesso.setForeground(new java.awt.Color(102, 204, 0));
+        lblExcluidoComSucesso.setText("Usuário excluido com sucesso!");
+        panelExcluir.add(lblExcluidoComSucesso);
+        lblExcluidoComSucesso.setBounds(36, 230, 240, 17);
+
+        panelFundo.add(panelExcluir);
+        panelExcluir.setBounds(0, 30, 880, 490);
+
+        panelAlterar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelAlteracao.setBackground(new java.awt.Color(255, 255, 255));
+        panelAlteracao.setLayout(null);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+
+        lblSenhaIncorreta.setBackground(new java.awt.Color(255, 0, 0));
+        lblSenhaIncorreta.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblSenhaIncorreta.setForeground(new java.awt.Color(255, 0, 0));
+        lblSenhaIncorreta.setText("Senha ou usuário incorreto!");
+
+        panelPasswordSelecionarAlterar.setBackground(new java.awt.Color(255, 255, 255));
+        panelPasswordSelecionarAlterar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        txtPasswordSelecionarAlterar.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtPasswordSelecionarAlterar.setText("Senha");
+        txtPasswordSelecionarAlterar.setBorder(null);
+        txtPasswordSelecionarAlterar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPasswordSelecionarAlterarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPasswordSelecionarAlterarFocusLost(evt);
+            }
+        });
+        txtPasswordSelecionarAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordSelecionarAlterarActionPerformed(evt);
+            }
+        });
+        txtPasswordSelecionarAlterar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordSelecionarAlterarKeyPressed(evt);
+            }
+        });
+
+        btnEye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png"))); // NOI18N
+        btnEye.setBorder(null);
+        btnEye.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEye.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEyeActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/passwordImg.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelPasswordSelecionarAlterarLayout = new javax.swing.GroupLayout(panelPasswordSelecionarAlterar);
+        panelPasswordSelecionarAlterar.setLayout(panelPasswordSelecionarAlterarLayout);
+        panelPasswordSelecionarAlterarLayout.setHorizontalGroup(
+            panelPasswordSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPasswordSelecionarAlterarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPasswordSelecionarAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEye, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelPasswordSelecionarAlterarLayout.setVerticalGroup(
+            panelPasswordSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPasswordSelecionarAlterarLayout.createSequentialGroup()
+                .addGroup(panelPasswordSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPasswordSelecionarAlterarLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(panelPasswordSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPasswordSelecionarAlterar)
+                            .addGroup(panelPasswordSelecionarAlterarLayout.createSequentialGroup()
+                                .addComponent(btnEye)
+                                .addGap(0, 2, Short.MAX_VALUE))))
+                    .addGroup(panelPasswordSelecionarAlterarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        panelEmailSelecionarAlterar.setBackground(new java.awt.Color(255, 255, 255));
+        panelEmailSelecionarAlterar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        txtEmailSelecionarAlterar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtEmailSelecionarAlterar.setText("Email");
+        txtEmailSelecionarAlterar.setBorder(null);
+        txtEmailSelecionarAlterar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailSelecionarAlterarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailSelecionarAlterarFocusLost(evt);
+            }
+        });
+        txtEmailSelecionarAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtEmailSelecionarAlterarMouseClicked(evt);
+            }
+        });
+        txtEmailSelecionarAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailSelecionarAlterarActionPerformed(evt);
+            }
+        });
+        txtEmailSelecionarAlterar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailSelecionarAlterarKeyPressed(evt);
+            }
+        });
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/emailImg.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelEmailSelecionarAlterarLayout = new javax.swing.GroupLayout(panelEmailSelecionarAlterar);
+        panelEmailSelecionarAlterar.setLayout(panelEmailSelecionarAlterarLayout);
+        panelEmailSelecionarAlterarLayout.setHorizontalGroup(
+            panelEmailSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmailSelecionarAlterarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtEmailSelecionarAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelEmailSelecionarAlterarLayout.setVerticalGroup(
+            panelEmailSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(panelEmailSelecionarAlterarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelEmailSelecionarAlterarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailSelecionarAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel12.setText("O email");
+
+        jLabel8.setText("Tenha certeza das alterações que deseja realizar.");
+
+        jLabel6.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel6.setText("NÃO");
+
+        jLabel7.setText("poderá ser alterado.");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel12))
+                .addGap(15, 15, 15))
+        );
+
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEnviar.png"))); // NOI18N
+        btnAlterar.setBorder(null);
+        btnAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnCancelar.png"))); // NOI18N
+        jButton3.setBorder(null);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(81, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(btnAlterar))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSenhaIncorreta, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(panelPasswordSelecionarAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelEmailSelecionarAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(36, 36, 36))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(74, Short.MAX_VALUE)
+                .addComponent(panelEmailSelecionarAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(panelPasswordSelecionarAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSenhaIncorreta)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAlterar)
+                    .addComponent(jButton3))
+                .addGap(74, 74, 74))
+        );
+
+        panelAlteracao.add(jPanel2);
+        jPanel2.setBounds(-50, -10, 490, 540);
+
+        panelAlterando.setBackground(new java.awt.Color(255, 255, 255));
+        panelAlterando.setLayout(null);
+
+        panelEmailAlterando.setBackground(new java.awt.Color(255, 255, 255));
+        panelEmailAlterando.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        txtEmailAlterando.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtEmailAlterando.setBorder(null);
+        txtEmailAlterando.setEnabled(false);
+        txtEmailAlterando.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailAlterandoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailAlterandoFocusLost(evt);
+            }
+        });
+        txtEmailAlterando.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtEmailAlterandoMouseClicked(evt);
+            }
+        });
+        txtEmailAlterando.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailAlterandoActionPerformed(evt);
+            }
+        });
+        txtEmailAlterando.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailAlterandoKeyPressed(evt);
+            }
+        });
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/emailImg.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelEmailAlterandoLayout = new javax.swing.GroupLayout(panelEmailAlterando);
+        panelEmailAlterando.setLayout(panelEmailAlterandoLayout);
+        panelEmailAlterandoLayout.setHorizontalGroup(
+            panelEmailAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmailAlterandoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtEmailAlterando, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+        panelEmailAlterandoLayout.setVerticalGroup(
+            panelEmailAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmailAlterandoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelEmailAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailAlterando, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        panelAlterando.add(panelEmailAlterando);
+        panelEmailAlterando.setBounds(26, 133, 354, 57);
+
+        panelPasswordAlterando.setBackground(new java.awt.Color(255, 255, 255));
+        panelPasswordAlterando.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        btnEyeAlterando.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png"))); // NOI18N
+        btnEyeAlterando.setBorder(null);
+        btnEyeAlterando.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEyeAlterando.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEyeAlterandoActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/passwordImg.png"))); // NOI18N
+
+        txtPasswordAlterando.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtPasswordAlterando.setText("Senha");
+        txtPasswordAlterando.setBorder(null);
+
+        javax.swing.GroupLayout panelPasswordAlterandoLayout = new javax.swing.GroupLayout(panelPasswordAlterando);
+        panelPasswordAlterando.setLayout(panelPasswordAlterandoLayout);
+        panelPasswordAlterandoLayout.setHorizontalGroup(
+            panelPasswordAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPasswordAlterandoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPasswordAlterando, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEyeAlterando, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelPasswordAlterandoLayout.setVerticalGroup(
+            panelPasswordAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPasswordAlterandoLayout.createSequentialGroup()
+                .addGroup(panelPasswordAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPasswordAlterandoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelPasswordAlterandoLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(panelPasswordAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPasswordAlterando, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEyeAlterando))
+                        .addGap(0, 2, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        panelAlterando.add(panelPasswordAlterando);
+        panelPasswordAlterando.setBounds(26, 208, 354, 60);
+
+        panelNameAlterando.setBackground(new java.awt.Color(255, 255, 255));
+        panelNameAlterando.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        txtNameAlterando.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtNameAlterando.setBorder(null);
+        txtNameAlterando.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNameAlterandoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNameAlterandoFocusLost(evt);
+            }
+        });
+        txtNameAlterando.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameAlterandoActionPerformed(evt);
+            }
+        });
+        txtNameAlterando.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNameAlterandoKeyPressed(evt);
+            }
+        });
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/nameImg.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelNameAlterandoLayout = new javax.swing.GroupLayout(panelNameAlterando);
+        panelNameAlterando.setLayout(panelNameAlterandoLayout);
+        panelNameAlterandoLayout.setHorizontalGroup(
+            panelNameAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNameAlterandoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNameAlterando, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
+        );
+        panelNameAlterandoLayout.setVerticalGroup(
+            panelNameAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNameAlterandoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelNameAlterandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNameAlterando)
+                    .addGroup(panelNameAlterandoLayout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 2, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        panelAlterando.add(panelNameAlterando);
+        panelNameAlterando.setBounds(27, 55, 353, 60);
+
+        btnSalvarAlteracoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEnviar.png"))); // NOI18N
+        btnSalvarAlteracoes.setBorder(null);
+        btnSalvarAlteracoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalvarAlteracoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarAlteracoesActionPerformed(evt);
+            }
+        });
+        panelAlterando.add(btnSalvarAlteracoes);
+        btnSalvarAlteracoes.setBounds(140, 390, 140, 50);
+
+        lblAlteradoComSucesso.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblAlteradoComSucesso.setForeground(new java.awt.Color(51, 204, 0));
+        lblAlteradoComSucesso.setText("Usuário alterado com sucesso!");
+        panelAlterando.add(lblAlteradoComSucesso);
+        lblAlteradoComSucesso.setBounds(26, 274, 195, 17);
+
+        jLabel13.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel13.setText("Nível de conhecimento");
+        panelAlterando.add(jLabel13);
+        jLabel13.setBounds(110, 300, 240, 22);
+
+        lblBaixo1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblBaixo1.setText("Baixo");
+        panelAlterando.add(lblBaixo1);
+        lblBaixo1.setBounds(100, 350, 48, 20);
+
+        btnBaixoConhecimentoAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/checkBox.png"))); // NOI18N
+        btnBaixoConhecimentoAlterar.setBorder(null);
+        btnBaixoConhecimentoAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBaixoConhecimentoAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBaixoConhecimentoAlterarActionPerformed(evt);
+            }
+        });
+        panelAlterando.add(btnBaixoConhecimentoAlterar);
+        btnBaixoConhecimentoAlterar.setBounds(70, 350, 30, 20);
+
+        btnMedioConhecimentoAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/checkBox.png"))); // NOI18N
+        btnMedioConhecimentoAlterar.setBorder(null);
+        btnMedioConhecimentoAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMedioConhecimentoAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMedioConhecimentoAlterarActionPerformed(evt);
+            }
+        });
+        panelAlterando.add(btnMedioConhecimentoAlterar);
+        btnMedioConhecimentoAlterar.setBounds(170, 350, 30, 20);
+
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel16.setText("Médio");
+        panelAlterando.add(jLabel16);
+        jLabel16.setBounds(200, 350, 40, 20);
+
+        btnAltoConhecimentoAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/checkBox.png"))); // NOI18N
+        btnAltoConhecimentoAlterar.setBorder(null);
+        btnAltoConhecimentoAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAltoConhecimentoAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAltoConhecimentoAlterarActionPerformed(evt);
+            }
+        });
+        panelAlterando.add(btnAltoConhecimentoAlterar);
+        btnAltoConhecimentoAlterar.setBounds(280, 350, 30, 20);
+
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel19.setText("Alto");
+        panelAlterando.add(jLabel19);
+        jLabel19.setBounds(310, 350, 40, 20);
+
+        panelAlteracao.add(panelAlterando);
+        panelAlterando.setBounds(460, 10, 410, 480);
+
+        panelAlterar.add(panelAlteracao, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 500));
+
+        panelFundo.add(panelAlterar);
+        panelAlterar.setBounds(0, 30, 880, 490);
+
+        panelListar.setBackground(new java.awt.Color(255, 255, 255));
+
+        panelUsuarioListar.setBackground(new java.awt.Color(255, 255, 255));
         panelUsuarioListar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        panelUsuarioListar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                panelUsuarioListarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                panelUsuarioListarFocusLost(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/nameImg.png"))); // NOI18N
 
-        txtUsuarioListar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtUsuarioListar.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtUsuarioListar.setText("Nome");
         txtUsuarioListar.setBorder(null);
+        txtUsuarioListar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUsuarioListarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsuarioListarFocusLost(evt);
+            }
+        });
+        txtUsuarioListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsuarioListarActionPerformed(evt);
+            }
+        });
+        txtUsuarioListar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioListarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelUsuarioListarLayout = new javax.swing.GroupLayout(panelUsuarioListar);
         panelUsuarioListar.setLayout(panelUsuarioListarLayout);
         panelUsuarioListarLayout.setHorizontalGroup(
             panelUsuarioListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelUsuarioListarLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(txtUsuarioListar, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsuarioListar, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panelUsuarioListarLayout.setVerticalGroup(
             panelUsuarioListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
             .addComponent(txtUsuarioListar, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        panelListar.add(panelUsuarioListar);
-        panelUsuarioListar.setBounds(24, 44, 350, 52);
-
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setText("Nível de conhecimento");
-        panelListar.add(jLabel2);
-        jLabel2.setBounds(570, 30, 180, 17);
 
         btnMedioConhecimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/checkBox.png"))); // NOI18N
         btnMedioConhecimento.setBorder(null);
@@ -208,8 +927,6 @@ public class PaginaAdministrador extends javax.swing.JFrame {
                 btnMedioConhecimentoActionPerformed(evt);
             }
         });
-        panelListar.add(btnMedioConhecimento);
-        btnMedioConhecimento.setBounds(620, 70, 30, 20);
 
         btnAltoConhecimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/checkBox.png"))); // NOI18N
         btnAltoConhecimento.setBorder(null);
@@ -219,8 +936,6 @@ public class PaginaAdministrador extends javax.swing.JFrame {
                 btnAltoConhecimentoActionPerformed(evt);
             }
         });
-        panelListar.add(btnAltoConhecimento);
-        btnAltoConhecimento.setBounds(760, 70, 30, 20);
 
         btnBaixoConhecimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/checkBox.png"))); // NOI18N
         btnBaixoConhecimento.setBorder(null);
@@ -230,32 +945,159 @@ public class PaginaAdministrador extends javax.swing.JFrame {
                 btnBaixoConhecimentoActionPerformed(evt);
             }
         });
-        panelListar.add(btnBaixoConhecimento);
-        btnBaixoConhecimento.setBounds(490, 70, 30, 20);
 
         lblBaixo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblBaixo.setText("Baixo");
-        panelListar.add(lblBaixo);
-        lblBaixo.setBounds(520, 70, 40, 20);
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel9.setText("Médio");
-        panelListar.add(jLabel9);
-        jLabel9.setBounds(650, 70, 40, 20);
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel10.setText("Alto");
-        panelListar.add(jLabel10);
-        jLabel10.setBounds(790, 70, 40, 20);
+
+        panelEmail.setBackground(new java.awt.Color(255, 255, 255));
+        panelEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/emailImg.png"))); // NOI18N
+
+        txtEmailListar.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtEmailListar.setText("Email");
+        txtEmailListar.setBorder(null);
+        txtEmailListar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEmailListarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailListarFocusLost(evt);
+            }
+        });
+        txtEmailListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailListarActionPerformed(evt);
+            }
+        });
+        txtEmailListar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailListarKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelEmailLayout = new javax.swing.GroupLayout(panelEmail);
+        panelEmail.setLayout(panelEmailLayout);
+        panelEmailLayout.setHorizontalGroup(
+            panelEmailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEmailListar, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelEmailLayout.setVerticalGroup(
+            panelEmailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(txtEmailListar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+
+        tblListar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tblListar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Email", "Nivel Conhecimento"
+            }
+        ));
+        tblListar.setEnabled(false);
+        tblListar.setGridColor(new java.awt.Color(255, 255, 255));
+        tblListar.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        tblListar.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(tblListar);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+        );
+
+        javax.swing.GroupLayout panelListarLayout = new javax.swing.GroupLayout(panelListar);
+        panelListar.setLayout(panelListarLayout);
+        panelListarLayout.setHorizontalGroup(
+            panelListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelListarLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(panelListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelListarLayout.createSequentialGroup()
+                        .addGroup(panelListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelListarLayout.createSequentialGroup()
+                                .addComponent(panelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBaixoConhecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(btnMedioConhecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnAltoConhecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(47, Short.MAX_VALUE))
+                    .addGroup(panelListarLayout.createSequentialGroup()
+                        .addComponent(panelUsuarioListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+        panelListarLayout.setVerticalGroup(
+            panelListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelListarLayout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addGroup(panelListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelUsuarioListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(panelListarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBaixo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMedioConhecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAltoConhecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBaixoConhecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
+        );
 
         panelFundo.add(panelListar);
-        panelListar.setBounds(0, 40, 880, 480);
+        panelListar.setBounds(0, 30, 880, 490);
 
+        panelBar.setBackground(new java.awt.Color(255, 255, 255));
         panelBar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblListar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        lblListar.setForeground(new java.awt.Color(0, 0, 0));
+        lblListar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblListar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblListar.setText("Listar");
+        lblListar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblListar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblListarMouseClicked(evt);
@@ -268,38 +1110,10 @@ public class PaginaAdministrador extends javax.swing.JFrame {
             }
         });
 
-        lblBuscar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        lblBuscar.setForeground(new java.awt.Color(0, 0, 0));
-        lblBuscar.setText("Buscar");
-        lblBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblBuscarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblBuscarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblBuscarMouseExited(evt);
-            }
-        });
-
-        lblCadastrar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        lblCadastrar.setForeground(new java.awt.Color(0, 0, 0));
-        lblCadastrar.setText("Cadastrar");
-        lblCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastrarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblCadastrarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblCadastrarMouseExited(evt);
-            }
-        });
-
-        lblAlterar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblAlterar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblAlterar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAlterar.setText("Alterar");
+        lblAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAlterarMouseClicked(evt);
@@ -312,8 +1126,10 @@ public class PaginaAdministrador extends javax.swing.JFrame {
             }
         });
 
-        lblExcluir.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblExcluir.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblExcluir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblExcluir.setText("Excluir");
+        lblExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblExcluirMouseClicked(evt);
@@ -326,34 +1142,47 @@ public class PaginaAdministrador extends javax.swing.JFrame {
             }
         });
 
+        lblSair.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblSair.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSair.setText("Sair");
+        lblSair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSairMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblSairMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblSairMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBarLayout = new javax.swing.GroupLayout(panelBar);
         panelBar.setLayout(panelBarLayout);
         panelBarLayout.setHorizontalGroup(
             panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBarLayout.createSequentialGroup()
-                .addContainerGap(264, Short.MAX_VALUE)
-                .addComponent(lblListar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblBuscar)
-                .addGap(18, 18, 18)
-                .addComponent(lblCadastrar)
-                .addGap(18, 18, 18)
-                .addComponent(lblAlterar)
-                .addGap(18, 18, 18)
-                .addComponent(lblExcluir)
-                .addGap(327, 327, 327))
+                .addContainerGap(305, Short.MAX_VALUE)
+                .addComponent(lblListar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSair, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(334, 334, 334))
         );
         panelBarLayout.setVerticalGroup(
             panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBarLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBuscar)
-                    .addComponent(lblCadastrar)
-                    .addComponent(lblAlterar)
-                    .addComponent(lblExcluir)
-                    .addComponent(lblListar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblListar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(lblSair))
+                .addContainerGap())
         );
 
         panelFundo.add(panelBar);
@@ -369,14 +1198,6 @@ public class PaginaAdministrador extends javax.swing.JFrame {
         lblListar.setForeground(Color.blue);
     }//GEN-LAST:event_lblListarMouseEntered
 
-    private void lblBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMouseEntered
-        lblBuscar.setForeground(Color.blue);
-    }//GEN-LAST:event_lblBuscarMouseEntered
-
-    private void lblCadastrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseEntered
-        lblCadastrar.setForeground(Color.blue);
-    }//GEN-LAST:event_lblCadastrarMouseEntered
-
     private void lblAlterarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlterarMouseEntered
         lblAlterar.setForeground(Color.blue);
     }//GEN-LAST:event_lblAlterarMouseEntered
@@ -389,14 +1210,6 @@ public class PaginaAdministrador extends javax.swing.JFrame {
         lblListar.setForeground(Color.black);
     }//GEN-LAST:event_lblListarMouseExited
 
-    private void lblBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMouseExited
-        lblBuscar.setForeground(Color.black);
-    }//GEN-LAST:event_lblBuscarMouseExited
-
-    private void lblCadastrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseExited
-        lblCadastrar.setForeground(Color.black);
-    }//GEN-LAST:event_lblCadastrarMouseExited
-
     private void lblAlterarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlterarMouseExited
         lblAlterar.setForeground(Color.BLACK);
     }//GEN-LAST:event_lblAlterarMouseExited
@@ -405,48 +1218,88 @@ public class PaginaAdministrador extends javax.swing.JFrame {
         lblExcluir.setForeground(Color.black);
     }//GEN-LAST:event_lblExcluirMouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void lblListarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListarMouseClicked
+        txtEmailListar.setText("Email");
+        txtUsuarioListar.setText("Nome");
         retirarPaineis();
         panelListar.setVisible(true);
+        txtUsuarioListar.requestFocus();
+        model.setRowCount(0);
+        try {
+            bd = new BancoDeDados();
+            ResultSet rs = bd.listar();
+            while (rs.next()) {
+                String[] lista = new String[]{
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("nivel_investimento")
+                };
+                model.addRow(lista);
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+
+        
     }//GEN-LAST:event_lblListarMouseClicked
-
-    private void lblBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMouseClicked
-        retirarPaineis();
-        panelBuscar.setVisible(true);
-
-    }//GEN-LAST:event_lblBuscarMouseClicked
-
-    private void lblCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseClicked
-        retirarPaineis();
-        panelCadastrar.setVisible(true);
-    }//GEN-LAST:event_lblCadastrarMouseClicked
 
     private void lblAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAlterarMouseClicked
         retirarPaineis();
         panelAlterar.setVisible(true);
+        txtEmailSelecionarAlterar.setText("Email");
+        txtPasswordSelecionarAlterar.setText("Senha");
+        txtPasswordSelecionarAlterar.setEchoChar((char)0);
+        panelAlterando.setVisible(false);
+        txtEmailSelecionarAlterar.requestFocus();
     }//GEN-LAST:event_lblAlterarMouseClicked
 
     private void lblExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExcluirMouseClicked
         retirarPaineis();
         panelExcluir.setVisible(true);
+        lblExcluir.setVisible(true);
+        txtEmailExcluir.setText("Email");
+        txtPasswordExcluir.setText("Senha");
+        removerErroLoginEstilo(panelEmailExcluir);
+        removerErroLoginEstilo(panelPasswordExcluir);
+        lblExcluidoComSucesso.setVisible(false);
+        lblDadosInvalidos.setVisible(false);
+        txtEmailExcluir.requestFocus();
     }//GEN-LAST:event_lblExcluirMouseClicked
 
     private void btnMedioConhecimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMedioConhecimentoActionPerformed
         if (btnMedioConhecimento.isSelected()) {
             btnMedioConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
-            nivelConhecimento = "";
+
+            btnMedioConhecimento.setSelected(false);
+            nivelConhecimentoInvestimento = "";
+            model.setRowCount(0);
         } else {
             btnMedioConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
             btnBaixoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
             btnAltoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+
             btnBaixoConhecimento.setSelected(false);
             btnAltoConhecimento.setSelected(false);
             btnMedioConhecimento.setSelected(true);
-            nivelConhecimento = "Medio";
+            nivelConhecimentoInvestimento = "Medio";
+
+            model.setRowCount(0);
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.listarNivelConhecimento(nivelConhecimentoInvestimento);
+                while (rs.next()) {
+                    String[] lista = new String[]{
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("nivel_investimento")
+                    };
+                    model.addRow(lista);
+                }
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
 
         }
 
@@ -455,28 +1308,490 @@ public class PaginaAdministrador extends javax.swing.JFrame {
     private void btnAltoConhecimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltoConhecimentoActionPerformed
         if (btnAltoConhecimento.isSelected()) {
             btnAltoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
-            nivelConhecimento = "";
+
+            btnAltoConhecimento.setSelected(false);
+            nivelConhecimentoInvestimento = "";
+            model.setRowCount(0);
         } else {
             btnMedioConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
             btnBaixoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
             btnAltoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
-            nivelConhecimento = "Alto";
-            
+
+            btnBaixoConhecimento.setSelected(false);
+            btnAltoConhecimento.setSelected(true);
+            btnMedioConhecimento.setSelected(false);
+            nivelConhecimentoInvestimento = "Alto";
+
+            model.setRowCount(0);
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.listarNivelConhecimento(nivelConhecimentoInvestimento);
+                while (rs.next()) {
+                    String[] lista = new String[]{
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("nivel_investimento")
+                    };
+                    model.addRow(lista);
+                }
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
         }
 
     }//GEN-LAST:event_btnAltoConhecimentoActionPerformed
 
+    private void txtUsuarioListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioListarActionPerformed
+
+    }//GEN-LAST:event_txtUsuarioListarActionPerformed
+
     private void btnBaixoConhecimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBaixoConhecimentoActionPerformed
         if (btnBaixoConhecimento.isSelected()) {
             btnBaixoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
-            nivelConhecimento = "";
+
+            btnBaixoConhecimento.setSelected(false);
+            nivelConhecimentoInvestimento = "";
+            model.setRowCount(0);
         } else {
             btnBaixoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
             btnMedioConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
             btnAltoConhecimento.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
-            nivelConhecimento = "Baixo";
+
+            btnBaixoConhecimento.setSelected(true);
+            btnAltoConhecimento.setSelected(false);
+            btnMedioConhecimento.setSelected(false);
+            nivelConhecimentoInvestimento = "Baixo";
+
+            model.setRowCount(0);
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.listarNivelConhecimento(nivelConhecimentoInvestimento);
+                while (rs.next()) {
+                    String[] lista = new String[]{
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("nivel_investimento")
+                    };
+                    model.addRow(lista);
+                }
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
         }
     }//GEN-LAST:event_btnBaixoConhecimentoActionPerformed
+
+    private void panelUsuarioListarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_panelUsuarioListarFocusGained
+
+    }//GEN-LAST:event_panelUsuarioListarFocusGained
+
+    private void panelUsuarioListarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_panelUsuarioListarFocusLost
+
+    }//GEN-LAST:event_panelUsuarioListarFocusLost
+
+    private void txtUsuarioListarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioListarFocusGained
+        adicionarFocusGainedEstiloBorda(panelUsuarioListar);
+        if (txtUsuarioListar.getText().equals("Nome")) {
+            txtUsuarioListar.requestFocus();
+            txtUsuarioListar.setText(null);
+            removerPlaceHolderEstilo(txtUsuarioListar);
+        }
+    }//GEN-LAST:event_txtUsuarioListarFocusGained
+
+    private void txtUsuarioListarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioListarFocusLost
+        adicionarFocusLostEstiloBorda(panelUsuarioListar);
+        if (txtUsuarioListar.getText().equals("")) {
+            txtUsuarioListar.setText("Nome");
+            adicionarPlaceHolderEstilo(txtUsuarioListar);
+        }
+    }//GEN-LAST:event_txtUsuarioListarFocusLost
+
+    private void txtEmailListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailListarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailListarActionPerformed
+
+    private void txtEmailListarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailListarFocusGained
+        adicionarFocusGainedEstiloBorda(panelEmail);
+        if (txtEmailListar.getText().equals("Email")) {
+            txtEmailListar.setText("");
+            removerPlaceHolderEstilo(txtEmailListar);
+        }
+    }//GEN-LAST:event_txtEmailListarFocusGained
+
+    private void txtEmailListarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailListarFocusLost
+        adicionarFocusLostEstiloBorda(panelEmail);
+        if (txtEmailListar.getText().equals("")) {
+            txtEmailListar.setText("Email");
+            adicionarPlaceHolderEstilo(txtEmailListar);
+        }
+    }//GEN-LAST:event_txtEmailListarFocusLost
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+
+        lblAlteradoComSucesso.setVisible(false);
+        String email = txtEmailSelecionarAlterar.getText();
+        String senha = txtPasswordSelecionarAlterar.getText();
+        Usuario usuario = new Usuario(email, senha);
+
+        if (email.equals("Email") || senha.equals("Senha")) {
+            lblSenhaIncorreta.setVisible(true);
+            adicionarErroLoginEstilo(panelEmailSelecionarAlterar);
+            adicionarErroLoginEstilo(panelPasswordSelecionarAlterar);
+        } else {
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.ler(usuario);
+                if (rs.next()) {
+                    txtEmailAlterando.setText(rs.getString("email"));
+                    txtPasswordAlterando.setText(rs.getString("senha"));
+                    txtNameAlterando.setText(rs.getString("nome"));
+                    nivelConhecimentoInvestimento = rs.getString("nivel_investimento");
+                    
+
+                    if (nivelConhecimentoInvestimento.equals("Baixo")) {
+                        btnBaixoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
+                        btnMedioConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+                        btnAltoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+                    } else if (nivelConhecimentoInvestimento.equals("Medio")) {
+                        btnBaixoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+                        btnMedioConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
+                        btnAltoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+                    } else if (nivelConhecimentoInvestimento.equals("Alto")) {
+                        btnBaixoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+                        btnMedioConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+                        btnAltoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
+                    }
+                    
+                    panelAlterando.setVisible(true);
+                } else {
+                    lblSenhaIncorreta.setVisible(true);
+                    adicionarErroLoginEstilo(panelEmailSelecionarAlterar);
+                    adicionarErroLoginEstilo(panelPasswordSelecionarAlterar);
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+            }
+        }
+
+
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void txtEmailSelecionarAlterarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailSelecionarAlterarKeyPressed
+
+    }//GEN-LAST:event_txtEmailSelecionarAlterarKeyPressed
+
+    private void txtEmailSelecionarAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailSelecionarAlterarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailSelecionarAlterarActionPerformed
+
+    private void txtEmailSelecionarAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtEmailSelecionarAlterarMouseClicked
+
+    }//GEN-LAST:event_txtEmailSelecionarAlterarMouseClicked
+
+    private void txtEmailSelecionarAlterarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailSelecionarAlterarFocusLost
+        adicionarFocusLostEstiloBorda(panelEmailSelecionarAlterar);
+        if (txtEmailSelecionarAlterar.getText().equals("")) {
+            txtEmailSelecionarAlterar.setText("Email");
+            adicionarPlaceHolderEstilo(txtEmailSelecionarAlterar);
+        }
+    }//GEN-LAST:event_txtEmailSelecionarAlterarFocusLost
+
+    private void txtEmailSelecionarAlterarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailSelecionarAlterarFocusGained
+        lblDadosInvalidos.setVisible(false);
+        adicionarFocusGainedEstiloBorda(panelEmailSelecionarAlterar);
+        if (txtEmailSelecionarAlterar.getText().equals("Email")) {
+            txtEmailSelecionarAlterar.requestFocus();
+            txtEmailSelecionarAlterar.setText("");
+            removerPlaceHolderEstilo(txtEmailSelecionarAlterar);
+        }
+    }//GEN-LAST:event_txtEmailSelecionarAlterarFocusGained
+
+    private void btnEyeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEyeActionPerformed
+        if (btnEye.isSelected()) {
+            btnEye.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeIsVisible.png")));
+            txtPasswordSelecionarAlterar.setEchoChar((char) 0);
+
+        } else {
+            btnEye.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png")));
+            txtPasswordSelecionarAlterar.setEchoChar('*');
+        }
+    }//GEN-LAST:event_btnEyeActionPerformed
+
+    private void txtPasswordSelecionarAlterarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordSelecionarAlterarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAlterar.doClick();
+        }
+    }//GEN-LAST:event_txtPasswordSelecionarAlterarKeyPressed
+
+    private void txtPasswordSelecionarAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordSelecionarAlterarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordSelecionarAlterarActionPerformed
+
+    private void txtPasswordSelecionarAlterarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordSelecionarAlterarFocusLost
+
+        adicionarFocusLostEstiloBorda(panelPasswordSelecionarAlterar);
+        if (txtPasswordSelecionarAlterar.getText().equals("")) {
+            txtPasswordSelecionarAlterar.setText("Senha");
+            txtPasswordSelecionarAlterar.setEchoChar((char) 0);
+            adicionarPlaceHolderEstilo(txtPasswordSelecionarAlterar);
+        }
+    }//GEN-LAST:event_txtPasswordSelecionarAlterarFocusLost
+
+    private void txtPasswordSelecionarAlterarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordSelecionarAlterarFocusGained
+        lblSenhaIncorreta.setVisible(false);
+        adicionarFocusGainedEstiloBorda(panelPasswordSelecionarAlterar);
+        if (txtPasswordSelecionarAlterar.getText().equals("Senha")) {
+            txtPasswordSelecionarAlterar.requestFocus();
+            txtPasswordSelecionarAlterar.setText(null);
+            txtPasswordSelecionarAlterar.setEchoChar('*');
+            removerPlaceHolderEstilo(txtPasswordSelecionarAlterar);
+        }
+    }//GEN-LAST:event_txtPasswordSelecionarAlterarFocusGained
+
+    private void txtEmailAlterandoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailAlterandoFocusGained
+
+    }//GEN-LAST:event_txtEmailAlterandoFocusGained
+
+    private void txtEmailAlterandoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailAlterandoFocusLost
+
+    }//GEN-LAST:event_txtEmailAlterandoFocusLost
+
+    private void txtEmailAlterandoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtEmailAlterandoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailAlterandoMouseClicked
+
+    private void txtEmailAlterandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailAlterandoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailAlterandoActionPerformed
+
+    private void txtEmailAlterandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailAlterandoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailAlterandoKeyPressed
+
+    private void btnEyeAlterandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEyeAlterandoActionPerformed
+        if (btnEyeAlterando.isSelected()) {
+            btnEyeAlterando.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeIsVisible.png")));
+            txtPasswordAlterando.setEchoChar((char) 0);
+
+        } else {
+            btnEyeAlterando.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png")));
+            txtPasswordAlterando.setEchoChar('*');
+        }
+    }//GEN-LAST:event_btnEyeAlterandoActionPerformed
+
+    private void txtNameAlterandoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameAlterandoFocusGained
+        adicionarFocusGainedEstiloBorda(panelNameAlterando);
+    }//GEN-LAST:event_txtNameAlterandoFocusGained
+
+    private void txtNameAlterandoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameAlterandoFocusLost
+        adicionarFocusLostEstiloBorda(panelNameAlterando);
+    }//GEN-LAST:event_txtNameAlterandoFocusLost
+
+    private void txtNameAlterandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameAlterandoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameAlterandoActionPerformed
+
+    private void txtNameAlterandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameAlterandoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameAlterandoKeyPressed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        panelAlterando.setVisible(false);
+        txtEmailAlterando.setText("Email");
+        txtNameAlterando.setText("Name");
+        txtPasswordAlterando.setText("Senha");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnSalvarAlteracoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarAlteracoesActionPerformed
+
+        String nome = txtNameAlterando.getText();
+        String email = txtEmailAlterando.getText();
+        String senha = txtPasswordAlterando.getText();
+
+        try {
+            bd = new BancoDeDados();
+            Usuario usuario = new Usuario(email, senha, nome, nivelConhecimentoInvestimento);
+            bd.atualizar(usuario);
+            lblAlteradoComSucesso.setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+
+    }//GEN-LAST:event_btnSalvarAlteracoesActionPerformed
+
+    private void txtEmailExcluirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailExcluirFocusGained
+        lblDadosInvalidos.setVisible(false);
+        lblExcluidoComSucesso.setVisible(false);
+        adicionarFocusGainedEstiloBorda(panelEmailExcluir);
+        if (txtEmailExcluir.getText().equals("Email")) {
+            txtEmailExcluir.setText(null);
+            txtEmailExcluir.requestFocus();
+            removerPlaceHolderEstilo(txtEmailExcluir);
+        }
+    }//GEN-LAST:event_txtEmailExcluirFocusGained
+
+    private void txtEmailExcluirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailExcluirFocusLost
+        adicionarFocusLostEstiloBorda(panelEmailExcluir);
+        if (txtEmailExcluir.getText().equals("")) {
+            txtEmailExcluir.setText("Email");
+            adicionarPlaceHolderEstilo(txtEmailExcluir);
+        }
+    }//GEN-LAST:event_txtEmailExcluirFocusLost
+
+    private void txtEmailExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailExcluirActionPerformed
+
+    private void txtEmailExcluirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailExcluirKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailExcluirKeyPressed
+
+    private void txtPasswordExcluirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordExcluirFocusGained
+        removerErroLoginEstilo(panelEmailSelecionarAlterar);
+        lblSenhaIncorreta.setVisible(false);
+        adicionarFocusGainedEstiloBorda(panelPasswordExcluir);
+        if (txtPasswordExcluir.getText().equals("Senha")) {
+            txtPasswordExcluir.requestFocus();
+            txtPasswordExcluir.setText(null);
+            txtPasswordExcluir.setEchoChar('*');
+            removerPlaceHolderEstilo(txtPasswordExcluir);
+        }
+    }//GEN-LAST:event_txtPasswordExcluirFocusGained
+
+    private void txtPasswordExcluirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordExcluirFocusLost
+
+        adicionarFocusLostEstiloBorda(panelPasswordExcluir);
+        if (txtPasswordExcluir.getText().equals("")) {
+            txtPasswordExcluir.setText("Senha");
+            txtPasswordExcluir.setEchoChar((char) 0);
+            adicionarPlaceHolderEstilo(txtPasswordExcluir);
+        }
+    }//GEN-LAST:event_txtPasswordExcluirFocusLost
+
+    private void txtPasswordExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordExcluirActionPerformed
+
+    private void txtPasswordExcluirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordExcluirKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordExcluirKeyPressed
+
+    private void btnEyeExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEyeExcluirActionPerformed
+        if (btnEyeExcluir.isSelected()) {
+            btnEyeExcluir.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeIsVisible.png")));
+            txtPasswordExcluir.setEchoChar((char) 0);
+
+        } else {
+            btnEyeExcluir.setIcon(new ImageIcon(getClass().getResource("/assets/btnEyeNotVisible.png")));
+            txtPasswordExcluir.setEchoChar('*');
+        }
+    }//GEN-LAST:event_btnEyeExcluirActionPerformed
+
+    private void btnEnviarExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarExcluirActionPerformed
+
+        txtPasswordExcluir.setEchoChar((char)0);
+        String email = txtEmailExcluir.getText();
+        String senha = txtPasswordExcluir.getText();
+        Usuario usuario = new Usuario(email, senha);
+        try {
+            bd = new BancoDeDados();
+            ResultSet rs = bd.ler(usuario);
+            if (rs.next()) {
+                bd.excluir(usuario);
+                lblExcluidoComSucesso.setVisible(true);
+                txtEmailExcluir.setText("Email");
+                txtPasswordExcluir.setText("Senha");
+
+            } else {
+                lblDadosInvalidos.setVisible(true);
+                adicionarErroLoginEstilo(panelEmailExcluir);
+                adicionarErroLoginEstilo(panelPasswordExcluir);
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnEnviarExcluirActionPerformed
+
+    private void lblSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMouseClicked
+        new PaginaLogin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_lblSairMouseClicked
+
+    private void lblSairMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMouseEntered
+        lblSair.setForeground(Color.blue);
+    }//GEN-LAST:event_lblSairMouseEntered
+
+    private void lblSairMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSairMouseExited
+        lblSair.setForeground(Color.black);
+    }//GEN-LAST:event_lblSairMouseExited
+
+    private void btnBaixoConhecimentoAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBaixoConhecimentoAlterarActionPerformed
+        btnBaixoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
+        btnMedioConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+        btnAltoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+        nivelConhecimentoInvestimento = "Baixo";
+    }//GEN-LAST:event_btnBaixoConhecimentoAlterarActionPerformed
+
+    private void btnMedioConhecimentoAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMedioConhecimentoAlterarActionPerformed
+        btnMedioConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
+        btnBaixoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+        btnAltoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+        nivelConhecimentoInvestimento = "Medio";
+    }//GEN-LAST:event_btnMedioConhecimentoAlterarActionPerformed
+
+    private void btnAltoConhecimentoAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltoConhecimentoAlterarActionPerformed
+        btnMedioConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+        btnBaixoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBox.png")));
+        btnAltoConhecimentoAlterar.setIcon(new ImageIcon(getClass().getResource("/assets/checkBoxOk.png")));
+        nivelConhecimentoInvestimento = "Alto";
+    }//GEN-LAST:event_btnAltoConhecimentoAlterarActionPerformed
+
+    private void txtUsuarioListarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioListarKeyPressed
+        String nome = txtUsuarioListar.getText();
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            model.setRowCount(0);
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.listarNome(nome);
+                while (rs.next()) {
+                    String[] lista = new String[]{
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("nivel_investimento")
+                    };
+                    model.addRow(lista);
+                }
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
+        }
+
+    }//GEN-LAST:event_txtUsuarioListarKeyPressed
+
+    private void txtEmailListarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailListarKeyPressed
+        String email = txtEmailListar.getText();
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            model.setRowCount(0);
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.listarEmail(email);
+                while (rs.next()) {
+                    String[] lista = new String[]{
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("nivel_investimento")
+                    };
+                    model.addRow(lista);
+                }
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_txtEmailListarKeyPressed
 
     /**
      * @param args the command line arguments
@@ -490,23 +1805,11 @@ public class PaginaAdministrador extends javax.swing.JFrame {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(new FlatMacLightLaf());
                     break;
 
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PaginaAdministrador.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PaginaAdministrador.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PaginaAdministrador.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PaginaAdministrador.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -522,30 +1825,83 @@ public class PaginaAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnAltoConhecimento;
+    private javax.swing.JButton btnAltoConhecimentoAlterar;
     private javax.swing.JButton btnBaixoConhecimento;
+    private javax.swing.JButton btnBaixoConhecimentoAlterar;
+    private javax.swing.JButton btnEnviarExcluir;
+    private javax.swing.JToggleButton btnEye;
+    private javax.swing.JToggleButton btnEyeAlterando;
+    private javax.swing.JToggleButton btnEyeExcluir;
     private javax.swing.JButton btnMedioConhecimento;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnMedioConhecimentoAlterar;
+    private javax.swing.JButton btnSalvarAlteracoes;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAlteradoComSucesso;
     private javax.swing.JLabel lblAlterar;
     private javax.swing.JLabel lblBaixo;
-    private javax.swing.JLabel lblBuscar;
-    private javax.swing.JLabel lblCadastrar;
+    private javax.swing.JLabel lblBaixo1;
+    private javax.swing.JLabel lblDadosInvalidos;
+    private javax.swing.JLabel lblExcluidoComSucesso;
     private javax.swing.JLabel lblExcluir;
     private javax.swing.JLabel lblListar;
+    private javax.swing.JLabel lblSair;
+    private javax.swing.JLabel lblSenhaIncorreta;
+    private javax.swing.JPanel panelAlteracao;
+    private javax.swing.JPanel panelAlterando;
     private javax.swing.JPanel panelAlterar;
     private javax.swing.JPanel panelBar;
-    private javax.swing.JPanel panelBuscar;
-    private javax.swing.JPanel panelCadastrar;
+    private javax.swing.JPanel panelEmail;
+    private javax.swing.JPanel panelEmailAlterando;
+    private javax.swing.JPanel panelEmailExcluir;
+    private javax.swing.JPanel panelEmailSelecionarAlterar;
     private javax.swing.JPanel panelExcluir;
     private javax.swing.JPanel panelFundo;
     private javax.swing.JPanel panelListar;
+    private javax.swing.JPanel panelNameAlterando;
+    private javax.swing.JPanel panelPasswordAlterando;
+    private javax.swing.JPanel panelPasswordExcluir;
+    private javax.swing.JPanel panelPasswordSelecionarAlterar;
     private javax.swing.JPanel panelUsuarioListar;
     private javax.swing.JTable tblListar;
+    private javax.swing.JTextField txtEmailAlterando;
+    private javax.swing.JTextField txtEmailExcluir;
+    private javax.swing.JTextField txtEmailListar;
+    private javax.swing.JTextField txtEmailSelecionarAlterar;
+    private javax.swing.JTextField txtNameAlterando;
+    private javax.swing.JPasswordField txtPasswordAlterando;
+    private javax.swing.JPasswordField txtPasswordExcluir;
+    private javax.swing.JPasswordField txtPasswordSelecionarAlterar;
     private javax.swing.JTextField txtUsuarioListar;
     // End of variables declaration//GEN-END:variables
 }

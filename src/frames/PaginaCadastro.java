@@ -1,12 +1,16 @@
-/*
+/*ç
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package frames;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dao.BancoDeDados;
+import entities.Usuario;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Formatter;
 import java.util.logging.Level;
@@ -16,6 +20,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.text.MaskFormatter;
 
@@ -42,53 +47,55 @@ public class PaginaCadastro extends javax.swing.JFrame {
     public void componentesAlterados() throws ParseException {
         panelName.setBackground(Color.WHITE);
         panelPassword.setBackground(Color.white);
-        adicionarPlaceHolder(txtName);
-        adicionarPlaceHolder(txtPassword);
-        adicionarPlaceHolder(txtEmail);
+        adicionarPlaceHolderEstilo(txtName);
+        adicionarPlaceHolderEstilo(txtPassword);
+        adicionarPlaceHolderEstilo(txtEmail);
         txtPassword.setEchoChar((char) 0);
         panelEmail.setBackground(Color.WHITE);
         lblNomeInvalido.setForeground(Color.red);
         lblEmailIncorreto.setForeground(Color.red);
         lblSenhaIncorreta.setForeground(Color.red);
-        lblUsuarioCadastrado.setForeground(Color.red);
+        lblUsuarioJáCadastrado.setForeground(Color.red);
         lblNomeInvalido.setVisible(false);
         lblEmailIncorreto.setVisible(false);
         lblSenhaIncorreta.setVisible(false);
-        lblUsuarioCadastrado.setVisible(false);
+        lblUsuarioJáCadastrado.setVisible(false);
+        lblUsuarioCadastradoComSucesso.setVisible(false);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/assets/iconImage.png")));
     }
-    
-    public void entradasSaoVazias(String nome, String email, String senha){
-        if(nome.equals("Nome")){
+
+    public void entradasSaoVazias(String nome, String email, String senha) {
+        if (nome.equals("Nome")) {
             adicionarEstiloBordaDeErro(panelName);
             lblNomeInvalido.setVisible(true);
         }
-        if(email.equals("Email")){
+        if (email.equals("Email")) {
             adicionarEstiloBordaDeErro(panelEmail);
             lblEmailIncorreto.setVisible(true);
         }
-        if(senha.equals("Senha")){
+        if (senha.equals("Senha")) {
             adicionarEstiloBordaDeErro(panelPassword);
             lblSenhaIncorreta.setVisible(true);
         }
     }
-    
-    public void adicioanarErroUsuarioJaCadastrado(){
-        lblUsuarioCadastrado.setVisible(true);
+
+    public void adicioanarErroUsuarioJaCadastrado() {
+        lblUsuarioJáCadastrado.setVisible(true);
         adicionarEstiloBordaDeErro(panelEmail);
         adicionarEstiloBordaDeErro(panelName);
         adicionarEstiloBordaDeErro(panelPassword);
     }
-    public void adicionarEstiloBordaDeErro(JPanel panel){
+
+    public void adicionarEstiloBordaDeErro(JPanel panel) {
         LineBorder border = new LineBorder(Color.red, 2);
         panel.setBorder(border);
     }
-    
-    public void removerEstiloBordaDeErro(JPanel panel){
+
+    public void removerEstiloBordaDeErro(JPanel panel) {
         LineBorder border = new LineBorder(Color.black, 2);
         panel.setBorder(border);
     }
-    
+
     public void adicionarFocusGainedEstiloBorda(JPanel panel) {
         LineBorder border = new LineBorder(Color.blue, 2);
         panel.setBorder(border);
@@ -99,13 +106,13 @@ public class PaginaCadastro extends javax.swing.JFrame {
         panel.setBorder(border);
     }
 
-    public void adicionarPlaceHolder(JTextField text) {
+    public void adicionarPlaceHolderEstilo(JTextField text) {
         Font font = text.getFont();
         font = font.deriveFont(Font.ITALIC);
         text.setFont(font);
     }
 
-    public void removerPlaceHolderStyle(JTextField text) {
+    public void removerPlaceHolderEstilo(JTextField text) {
         Font font = text.getFont();
         font = font.deriveFont(Font.PLAIN);
         text.setFont(font);
@@ -145,7 +152,8 @@ public class PaginaCadastro extends javax.swing.JFrame {
         lblNomeInvalido = new javax.swing.JLabel();
         lblEmailIncorreto = new javax.swing.JLabel();
         lblSenhaIncorreta = new javax.swing.JLabel();
-        lblUsuarioCadastrado = new javax.swing.JLabel();
+        lblUsuarioJáCadastrado = new javax.swing.JLabel();
+        lblUsuarioCadastradoComSucesso = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -155,7 +163,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
 
         panelName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        txtName.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtName.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
         txtName.setText("Nome");
         txtName.setBorder(null);
         txtName.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -247,8 +255,8 @@ public class PaginaCadastro extends javax.swing.JFrame {
             .addGroup(panelPasswordLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEye, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -296,7 +304,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
 
         panelEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        txtEmail.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtEmail.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
         txtEmail.setText("Email");
         txtEmail.setBorder(null);
         txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -327,8 +335,8 @@ public class PaginaCadastro extends javax.swing.JFrame {
             .addGroup(panelEmailLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panelEmailLayout.setVerticalGroup(
@@ -430,10 +438,17 @@ public class PaginaCadastro extends javax.swing.JFrame {
         jPanel1.add(lblSenhaIncorreta);
         lblSenhaIncorreta.setBounds(120, 340, 140, 17);
 
-        lblUsuarioCadastrado.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        lblUsuarioCadastrado.setText("Usuário já cadastrado!");
-        jPanel1.add(lblUsuarioCadastrado);
-        lblUsuarioCadastrado.setBounds(120, 250, 164, 16);
+        lblUsuarioJáCadastrado.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblUsuarioJáCadastrado.setText("Usuário já cadastrado!");
+        jPanel1.add(lblUsuarioJáCadastrado);
+        lblUsuarioJáCadastrado.setBounds(120, 250, 164, 16);
+
+        lblUsuarioCadastradoComSucesso.setBackground(new java.awt.Color(51, 255, 0));
+        lblUsuarioCadastradoComSucesso.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lblUsuarioCadastradoComSucesso.setForeground(new java.awt.Color(51, 153, 0));
+        lblUsuarioCadastradoComSucesso.setText("Usuáro cadastrado!");
+        jPanel1.add(lblUsuarioCadastradoComSucesso);
+        lblUsuarioCadastradoComSucesso.setBounds(120, 340, 150, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -464,7 +479,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
         if (txtName.getText().equals("Nome")) {
             txtName.requestFocus();
             txtName.setText(null);
-            removerPlaceHolderStyle(txtName);
+            removerPlaceHolderEstilo(txtName);
         }
     }//GEN-LAST:event_txtNameFocusGained
 
@@ -472,7 +487,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
         adicionarFocusLostEstiloBorda(panelName);
         if (txtName.getText().equals("")) {
             txtName.setText("Nome");
-            adicionarPlaceHolder(txtName);
+            adicionarPlaceHolderEstilo(txtName);
         }
     }//GEN-LAST:event_txtNameFocusLost
 
@@ -491,7 +506,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
             txtPassword.requestFocus();
             txtPassword.setText(null);
             txtPassword.setEchoChar('*');
-            removerPlaceHolderStyle(txtPassword);
+            removerPlaceHolderEstilo(txtPassword);
         }
     }//GEN-LAST:event_txtPasswordFocusGained
 
@@ -501,7 +516,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
         if (txtPassword.getText().equals("")) {
             txtPassword.setText("Senha");
             txtPassword.setEchoChar((char) 0);
-            adicionarPlaceHolder(txtPassword);
+            adicionarPlaceHolderEstilo(txtPassword);
         }
     }//GEN-LAST:event_txtPasswordFocusLost
 
@@ -531,12 +546,12 @@ public class PaginaCadastro extends javax.swing.JFrame {
 
     private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
         lblEmailIncorreto.setVisible(false);
-        lblUsuarioCadastrado.setVisible(false);
+        lblUsuarioJáCadastrado.setVisible(false);
         adicionarFocusGainedEstiloBorda(panelEmail);
         if (txtEmail.getText().equals("Email")) {
             txtEmail.setText(null);
             txtEmail.requestFocus();
-            removerPlaceHolderStyle(txtEmail);
+            removerPlaceHolderEstilo(txtEmail);
         }
     }//GEN-LAST:event_txtEmailFocusGained
 
@@ -544,7 +559,7 @@ public class PaginaCadastro extends javax.swing.JFrame {
         adicionarFocusLostEstiloBorda(panelEmail);
         if (txtEmail.getText().equals("")) {
             txtEmail.setText("Email");
-            adicionarPlaceHolder(txtEmail);
+            adicionarPlaceHolderEstilo(txtEmail);
         }
     }//GEN-LAST:event_txtEmailFocusLost
 
@@ -578,20 +593,44 @@ public class PaginaCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMedioConhecimentoActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        lblUsuarioCadastrado.setVisible(false);
+        lblUsuarioJáCadastrado.setVisible(false);
+        lblUsuarioCadastradoComSucesso.setVisible(false);
         removerEstiloBordaDeErro(panelEmail);
         removerEstiloBordaDeErro(panelName);
         removerEstiloBordaDeErro(panelPassword);
-        
+
         String nome, email, senha;
         nome = txtName.getText();
         email = txtEmail.getText();
         senha = txtPassword.getText();
-        entradasSaoVazias(nome, email, senha);
-        
-        //addErrorUsuarioJaCadastrado();
-        
-        
+        if (nome.equals("Nome") || email.equals("Email") || senha.equals("Senha")) {
+            entradasSaoVazias(nome, email, senha);
+        } else {
+            Usuario usuario = new Usuario(email, senha, nome, nivelConhecimento);
+            BancoDeDados bd;
+            try {
+                bd = new BancoDeDados();
+                bd.cadastrar(usuario);
+                lblUsuarioCadastradoComSucesso.setVisible(true);
+                txtName.setText("Nome");
+                txtEmail.setText("Email");
+                txtPassword.setText("Senha");
+                txtPassword.setEchoChar((char)0);
+                dispose();
+                new PaginaLogin().setVisible(true);
+            } catch (ClassNotFoundException | SQLException ex) {
+                if(ex.getMessage().contains("Duplicate")){
+                    lblUsuarioJáCadastrado.setVisible(true);
+                    adicionarEstiloBordaDeErro(panelEmail);
+                    adicionarEstiloBordaDeErro(panelName);
+                    adicionarEstiloBordaDeErro(panelPassword);
+                }else{
+                    JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+                }
+            }
+        }
+
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
@@ -603,21 +642,17 @@ public class PaginaCadastro extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+       try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(new FlatMacLightLaf());
                     break;
+
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PaginaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PaginaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PaginaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PaginaCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PaginaAdministrador.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -650,7 +685,8 @@ public class PaginaCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel lblEmailIncorreto;
     private javax.swing.JLabel lblNomeInvalido;
     private javax.swing.JLabel lblSenhaIncorreta;
-    private javax.swing.JLabel lblUsuarioCadastrado;
+    private javax.swing.JLabel lblUsuarioCadastradoComSucesso;
+    private javax.swing.JLabel lblUsuarioJáCadastrado;
     private javax.swing.JPanel panelEmail;
     private javax.swing.JPanel panelName;
     private javax.swing.JPanel panelPassword;
