@@ -3,22 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package frames;
+
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dao.BancoDeDados;
+import entities.Usuario;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Font;
-import static java.awt.Font.ITALIC;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import javax.swing.UIManager;
 
 /**
  *
@@ -31,17 +31,17 @@ public class PaginaLogin extends javax.swing.JFrame {
      */
     public PaginaLogin() {
         initComponents();
-        alteredComponents();
+        componentesAlterados();
     }
 
-    public void alteredComponents() {
+    public void componentesAlterados() {
         panelLogin.setBackground(Color.white);
         panelEmail.setBackground(Color.white);
         panelPassword.setBackground(Color.white);
         txtEmail.setBackground(new Color(0, 0, 0, 0));
         txtPassword.setBackground(new Color(0, 0, 0, 0));
-        addPlaceHolderStyle(txtEmail);
-        addPlaceHolderStyle(txtPassword);
+        adicionarPlaceHolderEstilo(txtEmail);
+        adicionarPlaceHolderEstilo(txtPassword);
         txtPassword.setEchoChar((char) 0);
         lblSenhaIncorreta.setVisible(false);
         lblSenhaIncorreta.setForeground(Color.red);
@@ -49,34 +49,36 @@ public class PaginaLogin extends javax.swing.JFrame {
 
     }
     
-    public void addFocusGainedBorderStyle(JPanel panel){
+    public void adicionarFocusGainedEstiloBorda(JPanel panel) {
         LineBorder border = new LineBorder(Color.blue, 2);
         panel.setBorder(border);
     }
-    public void addFocusLostBorderStyle(JPanel panel){
+
+    public void adicionarFocusLostEstiloBorda(JPanel panel) {
         LineBorder border = new LineBorder(Color.black, 2);
         panel.setBorder(border);
     }
-    public void addErrorLogin(){
+
+    public void adicionarEstiloBordaDeErro() {
         lblSenhaIncorreta.setVisible(true);
         LineBorder border = new LineBorder(Color.RED, 2);
         panelEmail.setBorder(border);
         panelPassword.setBorder(border);
     }
-    
-    public void removeErrorLogin(){
+
+    public void removerEstiloBordaDeErro() {
         LineBorder border = new LineBorder(Color.BLACK, 2);
         panelEmail.setBorder(border);
         panelPassword.setBorder(border);
     }
 
-    public void removePlaceHolderStyle(JTextField text) {
+    public void removerPlaceHolderEstilo(JTextField text) {
         Font font = text.getFont();
         font = font.deriveFont(Font.PLAIN);
         text.setFont(font);
     }
 
-    public void addPlaceHolderStyle(JTextField text) {
+    public void adicionarPlaceHolderEstilo(JTextField text) {
         Font font = text.getFont();
         font = font.deriveFont(Font.ITALIC);
         text.setFont(font);
@@ -233,6 +235,11 @@ public class PaginaLogin extends javax.swing.JFrame {
         btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btnEntrar.png"))); // NOI18N
         btnEntrar.setBorder(null);
         btnEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEntrarMouseClicked(evt);
+            }
+        });
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntrarActionPerformed(evt);
@@ -262,6 +269,9 @@ public class PaginaLogin extends javax.swing.JFrame {
             }
         });
         lblEntrarComoAdm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEntrarComoAdmMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblEntrarComoAdmMouseEntered(evt);
             }
@@ -326,25 +336,25 @@ public class PaginaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtPassword.requestFocus();
         }
     }//GEN-LAST:event_txtEmailKeyPressed
 
     private void txtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusGained
-        addFocusGainedBorderStyle(panelEmail);
+        adicionarFocusGainedEstiloBorda(panelEmail);
         if (txtEmail.getText().equals("Email")) {
             txtEmail.requestFocus();
             txtEmail.setText(null);
-            removePlaceHolderStyle(txtEmail);
+            removerPlaceHolderEstilo(txtEmail);
         }
     }//GEN-LAST:event_txtEmailFocusGained
 
     private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
-        addFocusLostBorderStyle(panelEmail);
+        adicionarFocusLostEstiloBorda(panelEmail);
         if (txtEmail.getText().equals("")) {
             txtEmail.setText("Email");
-            addPlaceHolderStyle(txtEmail);
+            adicionarPlaceHolderEstilo(txtEmail);
         }
     }//GEN-LAST:event_txtEmailFocusLost
 
@@ -360,7 +370,7 @@ public class PaginaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEyeActionPerformed
 
     private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnEntrar.doClick();
         }
     }//GEN-LAST:event_txtPasswordKeyPressed
@@ -370,34 +380,65 @@ public class PaginaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void txtPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusLost
-        addFocusLostBorderStyle(panelPassword);
+        adicionarFocusLostEstiloBorda(panelPassword);
         if (txtPassword.getText().equals("")) {
             txtPassword.setText("Senha");
             txtPassword.setEchoChar((char) 0);
-            addPlaceHolderStyle(txtPassword);
+            adicionarPlaceHolderEstilo(txtPassword);
         }
     }//GEN-LAST:event_txtPasswordFocusLost
 
     private void txtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusGained
-        addFocusGainedBorderStyle(panelPassword);
+        adicionarFocusGainedEstiloBorda(panelPassword);
         if (txtPassword.getText().equals("Senha")) {
             txtPassword.requestFocus();
             txtPassword.setText(null);
             txtPassword.setEchoChar('*');
-            removePlaceHolderStyle(txtPassword);
+            removerPlaceHolderEstilo(txtPassword);
         }
     }//GEN-LAST:event_txtPasswordFocusGained
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        addErrorLogin();
+        lblSenhaIncorreta.setVisible(false);
+        String email, senha, emailVerif, nivelInvestimento;
+        email = txtEmail.getText();
+        senha = txtPassword.getText();
+
+        if (email.equals("Email") || senha.equals("Senha")) {
+            adicionarEstiloBordaDeErro();
+        } else {
+            Usuario usuario = new Usuario(email, senha);
+            BancoDeDados bd;
+            try {
+                bd = new BancoDeDados();
+                ResultSet rs = bd.ler(usuario);
+                if (rs.next()) {
+                    emailVerif = rs.getString("email");
+                    nivelInvestimento = rs.getString("nivel_investimento");
+                    if (emailVerif.equals("adm@gmail.com")) {
+                        new PaginaAdministrador().setVisible(true);
+                        dispose();
+                    }else{
+                        new PaginaUsuario(usuario).setVisible(true);
+                        dispose();
+                    }
+                }else{
+                    adicionarEstiloBordaDeErro();
+                    
+                }
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "ERRO: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void lblCadastrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseEntered
-        lblCadastrar.setForeground( Color.BLUE);
+        lblCadastrar.setForeground(Color.BLUE);
     }//GEN-LAST:event_lblCadastrarMouseEntered
 
     private void lblCadastrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseExited
-         lblCadastrar.setForeground(Color.black);
+        lblCadastrar.setForeground(Color.black);
     }//GEN-LAST:event_lblCadastrarMouseExited
 
     private void lblCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseClicked
@@ -410,7 +451,7 @@ public class PaginaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailMouseClicked
 
     private void lblEntrarComoAdmFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblEntrarComoAdmFocusGained
-        
+
     }//GEN-LAST:event_lblEntrarComoAdmFocusGained
 
     private void lblEntrarComoAdmMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEntrarComoAdmMouseEntered
@@ -420,6 +461,18 @@ public class PaginaLogin extends javax.swing.JFrame {
     private void lblEntrarComoAdmMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEntrarComoAdmMouseExited
         lblEntrarComoAdm.setForeground(Color.black);
     }//GEN-LAST:event_lblEntrarComoAdmMouseExited
+
+    private void lblEntrarComoAdmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEntrarComoAdmMouseClicked
+        lblSenhaIncorreta.setVisible(false);
+        removerEstiloBordaDeErro();
+        txtEmail.setText("adm@gmail.com");
+        txtPassword.setText("Senha");
+        txtPassword.requestFocus();
+    }//GEN-LAST:event_lblEntrarComoAdmMouseClicked
+
+    private void btnEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntrarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEntrarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -433,18 +486,14 @@ public class PaginaLogin extends javax.swing.JFrame {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(new FlatMacLightLaf());
                     break;
+
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PaginaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PaginaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PaginaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PaginaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PaginaAdministrador.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
